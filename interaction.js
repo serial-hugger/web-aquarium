@@ -44,7 +44,6 @@ mainCanvas.addEventListener("mouseout", function(e)
 	movingItemSlot = -1;
 }); 
 
-
 function getMousePos(canvas, evt) {
     var rect = mainCanvas.getBoundingClientRect();
     return {

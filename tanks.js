@@ -104,7 +104,7 @@ function DrawTankItems(tank,decorArr,canvas,relSize,xOffset,yOffset){
 		}else{
 			ctx.globalAlpha = 1;
 		}
-		ctx.drawImage(tankImgs[imgSlot],GetItemXPos(x,y,size,relSize,xOffset,canvas.width,id),GetItemYPos(x,y,size,relSize,yOffset,topSand,id),iWidth,iHeight);
+		ctx.drawImage(tankImgs[imgSlot],(canvas.width/2-GetItemInfo(tankItems[id],"x")*(z*(x/-100)/100+size/2)*relSize+x*relSize)-(xOffset/5)*(5-z/10)*relSize,(topSand-GetItemInfo(tankItems[id],"y")*(z/100+size/2)*relSize+z*relSize)-((yOffset/25)*(5-z/10)/yMult)*relSize,iWidth,iHeight);
 		if((itemSlotOver == i && tank == selectedTank && movingItemSlot == -1) || (movingItemSlot == i && tank == selectedTank)){
 			hoverLeft = (canvas.width/2-GetItemInfo(tankItems[id],"x")*(z*(x/-100)/100+size/2)*relSize+x*relSize)-(xOffset/5)*(5-z/10)*relSize;
 			hoverTop = (topSand-GetItemInfo(tankItems[id],"y")*(z/100+size/2)*relSize+z*relSize)-((yOffset/25)*(5-z/10)/yMult)*relSize;
@@ -114,61 +114,21 @@ function DrawTankItems(tank,decorArr,canvas,relSize,xOffset,yOffset){
 		ctx.globalAlpha = 1;
 	}
 }
-function GetItemXPos(x,z,size,relSize,xOffset,canvasWidth,id){
-	return (canvasWidth/2-GetItemInfo(tankItems[id],"x"));
-}
-function GetItemYPos(x,z,size,relSize,yOffset,topSand,id){
-	return (topSand-GetItemInfo(tankItems[id],"y")*(z/100+size/2)*relSize+z*relSize)-((yOffset/25)*(5-z/10)/yMult)*relSize;
-}
-function GetItemAtPos(decorArr,canvas,relSize,xOffset,yOffset,topSand){
-	var currentSel = -1;
-	for(var i = 0;i<decorArr.length;i++){
-		var x = GetItemInfo(decorArr[i],"x");
-		var y = GetItemInfo(decorArr[i],"y");
-		var z = GetItemInfo(decorArr[i],"z");
-		var id = GetItemInfo(decorArr[i],"id");
-		var size = GetItemInfo(decorArr[i],"size");
-		var left = (canvas.width/2-GetItemInfo(tankItems[id],"x")*(z*(x/-100)/100+size/2)*relSize+x*relSize)-(xOffset/5)*(5-z/10)*relSize;
-		var top = (topSand-GetItemInfo(tankItems[id],"y")*(z/100+size/2)*relSize+z*relSize)-((yOffset/25)*(5-z/10)/yMult)*relSize;
-		var flip = GetItemInfo(decorArr[i],"flip");
-		var imgSlot;
-		if(flip == 0){
-			imgSlot = GetImageSlot(GetItemInfo(tankItems[parseInt(id)],"image"));
-		}else{
-			imgSlot = GetImageSlot(GetItemInfo(tankItems[parseInt(id)],"imagef"));
-		}
-		var iWidth = (tankImgs[imgSlot].width * relSize)*(z/100+size/2);
-		var iHeight = (tankImgs[imgSlot].height * relSize)*(z/100+size/2);
-		if(mouseX > left && mouseX < left + iWidth && mouseY > top && mouseY < top + iHeight){
-			currentSel = i;
-		}
+function UpdateCursor(){
+	if(cursor == 0){
+		document.body.style.cursor = "default";
 	}
-	return currentSel;
-}
-function GetTankItemInfo(info,type){
-	var infoList = [];
-	for(var i=0;i<info.length;i++){
-		var splitted = info[i].split(':');
-		if(splitted[0]==type){
-			infoList.push(splitted[1]);
-			//window.alert(splitted[1]);
-		}
+	if(cursor == 1){
+		document.body.style.cursor = "pointer";
 	}
-	return infoList;
-}
-function SetTankInfo(info,type,value){
-	for(var i=0;i<info.length;i++){
-		var splitted = info[i].split(':');
-		if(splitted[0]==type){
-			info[i] = null;
-			info[i] = type.toString() + ":" + value.toString();
-			//window.alert(info[i]);
-		}
+	if(cursor == 2){
+		document.body.style.cursor = "move";
 	}
 }
-function sortFunction(a,b)
-{
-	return parseInt(a[0].replace(/\D/g,'')) - parseInt(b[0].replace(/\D/g,''));
+window.onload = function() {
+	DecorateAll();
+	preloadTankImages();
+	repeat();
 }
 function preloadTankImages() {
 tankImgs[0] = new Image();
