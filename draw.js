@@ -3,7 +3,9 @@ function repeat(){
 	UpdateCursor();
 	cursor = 0;
 	if(movingItemSlot == -1){
-		tankDecor[selectedTank].sort(sortFunction);
+		tankDecor[selectedTank].sort(function(a,b){
+			return parseFloat(a.z) - parseFloat(b.z);
+		});
 	}
 	//Window size details
 	var width = document.body.clientWidth;
@@ -99,9 +101,9 @@ function repeat(){
 	}
 	if(mousePrevY != mouseY || mousePrevX != mouseX){
 		if(movingItemSlot >= 0){
-			var x = parseInt(GetItemInfo(tankDecor[selectedTank][movingItemSlot],"x")) + (mouseX-mousePrevX)*1.1;
-			var z = parseInt(GetItemInfo(tankDecor[selectedTank][movingItemSlot],"z")) + (mouseY-mousePrevY)*1.1;
-			var width = GetItemInfo(tankItems[GetItemInfo(tankDecor[selectedTank][movingItemSlot],"id")],"width")/2;
+			var x = parseInt(tankDecor[selectedTank][movingItemSlot].x) + (mouseX-mousePrevX)*1.1;
+			var z = parseInt(tankDecor[selectedTank][movingItemSlot].z) + (mouseY-mousePrevY)*1.1;
+			var width = tankItems[tankDecor[selectedTank][movingItemSlot].id].width/2;
 			
 
 			if(x>400-width){
@@ -116,9 +118,8 @@ function repeat(){
 			if(z<0){
 				z = 0;
 			}
-			//window.alert("x:" + (mouseX-mousePrevX) + " z:" + (mouseY-mousePrevY));
-			SetItemInfo(tankDecor[selectedTank][movingItemSlot],"x",x);
-			SetItemInfo(tankDecor[selectedTank][movingItemSlot],"z",z);
+			tankDecor[selectedTank][movingItemSlot].x = x;
+			tankDecor[selectedTank][movingItemSlot].z = z;
 		}
 		mousePrevY = mouseY;
 		mousePrevX = mouseX;

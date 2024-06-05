@@ -21,7 +21,7 @@ body {
 }
 </style>
 <div class = "container" id="container" style = "position:relative;">
-<canvas id = "selectedaquarium" width = 1023 height = 511.5 style = "border:2px solid #5e5e5e;margin:50px auto auto auto;display: flex;z-index=0"></canvas>
+<canvas id = "selectedaquarium" width = 1023 height = 511.5 style = "border:2px solid #5e5e5e;margin:50px auto auto auto;display: flex;z-index:0"></canvas>
 <div class="aquariumlist" id = "aquariums">
 </div>
 </div>
@@ -32,26 +32,22 @@ body {
 <script>
 
 
-function sortFunction(a,b)
-{
-	return parseFloat(a[0].replace(/\D/g,'')) - parseInt(b[0].replace(/\D/g,''));
-}
 function GetItemAtPos(decorArr,canvas,relSize,xOffset,yOffset,topSand){
 	var currentSel = -1;
 	for(var i = 0;i<decorArr.length;i++){
-		var x = GetItemInfo(decorArr[i],"x");
-		var y = GetItemInfo(decorArr[i],"y");
-		var z = GetItemInfo(decorArr[i],"z");
-		var id = GetItemInfo(decorArr[i],"id");
-		var size = GetItemInfo(decorArr[i],"size");
-		var left = (canvas.width/2-GetItemInfo(tankItems[id],"x")*(z*(x/-100)/100+size/2)*relSize+x*relSize)-(xOffset/5)*(5-z/10)*relSize;
-		var top = (topSand-GetItemInfo(tankItems[id],"y")*(z/100+size/2)*relSize+z*relSize)-((yOffset/25)*(5-z/10)/yMult)*relSize;
-		var flip = GetItemInfo(decorArr[i],"flip");
+		var x = decorArr[i].x;
+		var y = decorArr[i].y;
+		var z = decorArr[i].z;
+		var id = decorArr[i].id;
+		var size = decorArr[i].size;
+		var left = (canvas.width/2-tankItems[id].x*(z*(x/-100)/100+size/2)*relSize+x*relSize)-(xOffset/5)*(5-z/10)*relSize;
+		var top = (topSand-tankItems[id].y*(z/100+size/2)*relSize+z*relSize)-((yOffset/25)*(5-z/10)/yMult)*relSize;
+		var flip = decorArr[i].flip;
 		var imgSlot;
 		if(flip == 0){
-			imgSlot = GetImageSlot(GetItemInfo(tankItems[parseInt(id)],"image"));
+			imgSlot = GetImageSlot(decorArr[i].image);
 		}else{
-			imgSlot = GetImageSlot(GetItemInfo(tankItems[parseInt(id)],"imagef"));
+			imgSlot = GetImageSlot(decorArr[i].imagef);
 		}
 		var iWidth = (tankImgs[imgSlot].width * relSize)*(z/100+size/2);
 		var iHeight = (tankImgs[imgSlot].height * relSize)*(z/100+size/2);

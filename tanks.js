@@ -36,7 +36,6 @@ function CreateTank(tank){
 	});
 }
 function DecorateTank(tank){
-	var currentDecor = [];
 	tankDecor[tank] = [];
 	for(z=0;z<50;z+=getRandomInt(2,3)){
 		var random;
@@ -45,14 +44,7 @@ function DecorateTank(tank){
 		}else{
 			random = 5;
 		}
-		currentDecor.push("z:"+z.toString());
-		currentDecor.push("id:"+random.toString());
-		currentDecor.push("x:"+getRandomInt(-300,300).toString());
-		currentDecor.push("y:0");
-		currentDecor.push("size:"+(getRandomInt(8,12)/10).toString());
-		currentDecor.push("flip:"+(getRandomInt(0,1)).toString());
-		tankDecor[tank].push(currentDecor);
-		currentDecor = [];
+		tankDecor[tank].push({"z":z,"id":random,"x":getRandomInt(-300,300),"y":0,"size":(getRandomInt(8,12)/10),"flip":(getRandomInt(0,1)),"image":tankItems[random].image,"imagef":tankItems[random].imagef});
 	}
 }
 function DecorateAll(){
@@ -68,17 +60,17 @@ function DrawTankItems(tank,decorArr,canvas,relSize,xOffset,yOffset){
 		itemSlotOver = GetItemAtPos(decorArr,canvas,relSize,xOffset,yOffset);
 	}
 	for(var i=0;i<decorArr.length;i++){
-		var x = GetItemInfo(decorArr[i],"x");
-		var y = GetItemInfo(decorArr[i],"y");
-		var z = GetItemInfo(decorArr[i],"z");
-		var id = GetItemInfo(decorArr[i],"id");
-		var size = GetItemInfo(decorArr[i],"size");
-		var flip = GetItemInfo(decorArr[i],"flip");
+		var x = decorArr[i].x;
+		var y = decorArr[i].y;
+		var z = decorArr[i].z;
+		var id = decorArr[i].id;
+		var size = decorArr[i].size;
+		var flip = decorArr[i].flip;
 		var imgSlot;
 		if(flip == 0){
-			imgSlot = GetImageSlot(GetItemInfo(tankItems[parseInt(id)],"image"));
+			imgSlot = GetImageSlot(decorArr[i].image);
 		}else{
-			imgSlot = GetImageSlot(GetItemInfo(tankItems[parseInt(id)],"imagef"));
+			imgSlot = GetImageSlot(decorArr[i].imagef);
 		}
 		var iWidth = (tankImgs[imgSlot].width * relSize)*(z/90+size/2);
 		var iHeight = (tankImgs[imgSlot].height * relSize)*(z/90+size/2);
@@ -104,10 +96,10 @@ function DrawTankItems(tank,decorArr,canvas,relSize,xOffset,yOffset){
 		}else{
 			ctx.globalAlpha = 1;
 		}
-		ctx.drawImage(tankImgs[imgSlot],(canvas.width/2-GetItemInfo(tankItems[id],"x")*(z*(x/-100)/100+size/2)*relSize+x*relSize)-(xOffset/5)*(5-z/10)*relSize,(topSand-GetItemInfo(tankItems[id],"y")*(z/100+size/2)*relSize+z*relSize)-((yOffset/25)*(5-z/10)/yMult)*relSize,iWidth,iHeight);
+		ctx.drawImage(tankImgs[imgSlot],(canvas.width/2-tankItems[id].x*(z*(x/-100)/100+size/2)*relSize+x*relSize)-(xOffset/5)*(5-z/10)*relSize,(topSand-tankItems[id].y*(z/100+size/2)*relSize+z*relSize)-((yOffset/25)*(5-z/10)/yMult)*relSize,iWidth,iHeight);
 		if((itemSlotOver == i && tank == selectedTank && movingItemSlot == -1) || (movingItemSlot == i && tank == selectedTank)){
-			hoverLeft = (canvas.width/2-GetItemInfo(tankItems[id],"x")*(z*(x/-100)/100+size/2)*relSize+x*relSize)-(xOffset/5)*(5-z/10)*relSize;
-			hoverTop = (topSand-GetItemInfo(tankItems[id],"y")*(z/100+size/2)*relSize+z*relSize)-((yOffset/25)*(5-z/10)/yMult)*relSize;
+			hoverLeft = (canvas.width/2-tankItems[id].x*(z*(x/-100)/100+size/2)*relSize+x*relSize)-(xOffset/5)*(5-z/10)*relSize;
+			hoverTop = (topSand-tankItems[id].y*(z/100+size/2)*relSize+z*relSize)-((yOffset/25)*(5-z/10)/yMult)*relSize;
 			hoverWidth = iWidth;
 			hoverHeight = iHeight;
 		}
@@ -129,27 +121,4 @@ window.onload = function() {
 	DecorateAll();
 	preloadTankImages();
 	repeat();
-}
-function preloadTankImages() {
-tankImgs[0] = new Image();
-tankImgs[0].src = "shine1.png";
-tankImgs[1] = new Image();
-tankImgs[1].src = "selected.png";
-	var index = 2;
-	for (i1 = 0; i1 < tankItems.length; i1++) {
-		var imgNames = GetItemInfo(tankItems[i1],"image");
-		for(i2=0;i2<imgNames.length;i2++){
-			tankImgs[index] = new Image();
-			tankImgs[index].src = imgNames[i2];
-			index += 1;
-		}
-		imgNames = GetItemInfo(tankItems[i1],"imagef");
-		for(i2=0;i2<imgNames.length;i2++){
-			tankImgs[index] = new Image();
-			tankImgs[index].src = imgNames[i2];
-			index += 1;
-		}
-		//window.alert(tankImgs);
-	}
-	
 }
