@@ -43,12 +43,7 @@ function GetItemAtPos(decorArr,canvas,relSize,xOffset,yOffset,topSand){
 		var left = (canvas.width/2-tankItems[id].x*(z*(x/-100)/100+size/2)*relSize+x*relSize)-(xOffset/5)*(5-z/10)*relSize;
 		var top = (topSand-tankItems[id].y*(z/100+size/2)*relSize+z*relSize)-((yOffset/25)*(5-z/10)/yMult)*relSize;
 		var flip = decorArr[i].flip;
-		var imgSlot;
-		if(flip == 0){
-			imgSlot = GetImageSlot(decorArr[i].image);
-		}else{
-			imgSlot = GetImageSlot(decorArr[i].imagef);
-		}
+		var imgSlot = GetImageSlot(decorArr[i].image);
 		var iWidth = (tankImgs[imgSlot].width * relSize)*(z/100+size/2);
 		var iHeight = (tankImgs[imgSlot].height * relSize)*(z/100+size/2);
 		if(mouseX > left && mouseX < left + iWidth && mouseY > top && mouseY < top + iHeight){
@@ -64,6 +59,5 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 </script>
-
 </body>
 </html>

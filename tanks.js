@@ -44,7 +44,7 @@ function DecorateTank(tank){
 		}else{
 			random = 5;
 		}
-		tankDecor[tank].push({"z":z,"id":random,"x":getRandomInt(-300,300),"y":0,"size":(getRandomInt(8,12)/10),"flip":(getRandomInt(0,1)),"image":tankItems[random].image,"imagef":tankItems[random].imagef});
+		tankDecor[tank].push({"z":z,"id":random,"x":getRandomInt(-300,300),"y":0,"size":(getRandomInt(8,12)/10),"flip":(getRandomInt(0,1)),"image":tankItems[random].image});
 	}
 }
 function DecorateAll(){
@@ -55,7 +55,7 @@ function DecorateAll(){
 }
 function DrawTankItems(tank,decorArr,canvas,relSize,xOffset,yOffset){
 	var canvas = canvas;
-	var ctx = canvas.getContext("2d")
+	var ctx = canvas.getContext("2d");
 	if(tank == selectedTank){
 		itemSlotOver = GetItemAtPos(decorArr,canvas,relSize,xOffset,yOffset);
 	}
@@ -67,11 +67,7 @@ function DrawTankItems(tank,decorArr,canvas,relSize,xOffset,yOffset){
 		var size = decorArr[i].size;
 		var flip = decorArr[i].flip;
 		var imgSlot;
-		if(flip == 0){
-			imgSlot = GetImageSlot(decorArr[i].image);
-		}else{
-			imgSlot = GetImageSlot(decorArr[i].imagef);
-		}
+		imgSlot = GetImageSlot(decorArr[i].image);
 		var iWidth = (tankImgs[imgSlot].width * relSize)*(z/90+size/2);
 		var iHeight = (tankImgs[imgSlot].height * relSize)*(z/90+size/2);
 		var sandW = relSize*tankImgs[0].width;
@@ -96,7 +92,7 @@ function DrawTankItems(tank,decorArr,canvas,relSize,xOffset,yOffset){
 		}else{
 			ctx.globalAlpha = 1;
 		}
-		ctx.drawImage(tankImgs[imgSlot],(canvas.width/2-tankItems[id].x*(z*(x/-100)/100+size/2)*relSize+x*relSize)-(xOffset/5)*(5-z/10)*relSize,(topSand-tankItems[id].y*(z/100+size/2)*relSize+z*relSize)-((yOffset/25)*(5-z/10)/yMult)*relSize,iWidth,iHeight);
+		drawImageRot(ctx,tankImgs[imgSlot],(canvas.width/2-tankItems[id].x*(z*(x/-100)/100+size/2)*relSize+x*relSize)-(xOffset/5)*(5-z/10)*relSize,(topSand-tankItems[id].y*(z/100+size/2)*relSize+z*relSize)-((yOffset/25)*(5-z/10)/yMult)*relSize,iWidth,iHeight,0,flip,false);
 		if((itemSlotOver == i && tank == selectedTank && movingItemSlot == -1) || (movingItemSlot == i && tank == selectedTank)){
 			hoverLeft = (canvas.width/2-tankItems[id].x*(z*(x/-100)/100+size/2)*relSize+x*relSize)-(xOffset/5)*(5-z/10)*relSize;
 			hoverTop = (topSand-tankItems[id].y*(z/100+size/2)*relSize+z*relSize)-((yOffset/25)*(5-z/10)/yMult)*relSize;
@@ -105,6 +101,36 @@ function DrawTankItems(tank,decorArr,canvas,relSize,xOffset,yOffset){
 		}
 		ctx.globalAlpha = 1;
 	}
+}
+function drawImageRot(ctx,img,x,y,width,height,deg,flipX,flipY){
+    // Store the current context state (i.e. rotation, translation etc..)
+    ctx.save()
+
+    //Convert degrees to radian 
+    var rad = deg * Math.PI / 180;
+
+    //Set the origin to the center of the image
+    ctx.translate(x + width / 2, y + height / 2);
+
+    //Rotate the canvas around the origin
+    ctx.rotate(rad);
+
+	var xScale = 1;
+	var yScale = 1;
+	if(flipX){
+		xScale = -1;
+	}
+	if(flipY){
+		yScale = -1;
+	}
+	ctx.translate(0,0);
+	ctx.scale(xScale,yScale);
+
+    //draw the image    
+    ctx.drawImage(img,width / 2 * (-1),height / 2 * (-1),width,height);
+
+    // Restore canvas state as saved from above
+    ctx.restore();
 }
 function UpdateCursor(){
 	if(cursor == 0){
