@@ -47,7 +47,7 @@ function GetItemAtPos(decorArr,canvas,relSize,xOffset,yOffset,topSand){
 
 		var percentOfSize = iWidth / tankItems[id].width;
 
-		var xDraw = ((canvas.width/2)  +                      ((x*1)*(1+(z*0.007)))*relSize     -        (xOffset/5)*relSize);//*(5-z/10)*relSize;
+		var xDraw = ((canvas.width/2)  +                      ((x*1)*(1+(z*0.007)))*relSize     -        ((xOffset/5)*((50-z)*0.1))*relSize);//*(5-z/10)*relSize;
 		var yDraw = canvas.height - (150*relSize)  - (y * relSize) -    ((z*0.06)*relSize)                -      (((((yOffset+500))/5)*((z-25)*0.01)*relSize)*-1)  + (z*1.8)*relSize;
 
 		var left = (xDraw-iWidth/2) +(tankItems[id].x*percentOfSize*relSize);
