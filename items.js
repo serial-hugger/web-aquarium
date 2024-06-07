@@ -5,7 +5,8 @@ var tankItems = [
 {"image":"dp0003.png","type":"decor","name":"Sea Weed","x":0,"y":70,"width":62,"height":169},
 {"image":"dp0004.png","type":"decor","name":"Sea Weed","x":0,"y":50,"width":81,"height":117},
 {"image":"dp0005.png","type":"decor","name":"Sea Weed","x":0,"y":50,"width":98,"height":110},
-{"image":"dp0006.png","type":"decor","name":"Chest","x":0,"y":40,"width":148,"height":127}
+{"image":"dp0006.png","type":"decor","name":"Chest","x":0,"y":40,"width":148,"height":127},
+{"image":"bg0001.png","type":"background","name":"Background 1","width":700,"height":350}
 ];
 var tankImgs = [];
 function preloadTankImages() {

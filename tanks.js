@@ -96,20 +96,17 @@ function DrawTankItems(tank,decorArr,canvas,relSize,xOffset,yOffset){
 		//drawImageRot(ctx,tankImgs[imgSlot],(canvas.width/2-tankItems[id].x*(z*(x/100)/100+size/2)*relSize+x*relSize)-(xOffset/5)*(5-z/10)*relSize,(topSand-tankItems[id].y*(z/100+size/2)*relSize+z*relSize)-((yOffset/25)*(5-z/10)/yMult)*relSize,iWidth,iHeight,0,flip,false);
 		var percentOfSize = iWidth / tankItems[id].width;
 
-		var xCenter = tankItems[id].x;
-		var yCenter = tankItems[id].y;
-
 		var xDraw = ((canvas.width/2)  +                      ((x*1)*(1+(z*0.007)))*relSize     -        (xOffset/5)*relSize);//*(5-z/10)*relSize;
 		var yDraw = canvas.height - (150*relSize)  - (y * relSize) -    ((z*0.06)*relSize)                -      (((((yOffset+500))/5)*((z-25)*0.01)*relSize)*-1)  + (z*1.8)*relSize;
 
 		drawImageRot(ctx,tankImgs[imgSlot],xDraw+(tankItems[id].x*percentOfSize*relSize),yDraw-(tankItems[id].y*percentOfSize*relSize),iWidth,iHeight,0,flip,false);
 		ctx.fillStyle = "red";
 		ctx.translate(0, 0);
-		ctx.fillRect(xDraw, yDraw, 5*relSize, 5*relSize);
+		//ctx.fillRect(xDraw, yDraw, 5*relSize, 5*relSize);
 
 		if((itemSlotOver == i && tank == selectedTank && movingItemSlot == -1) || (movingItemSlot == i && tank == selectedTank)){
-			hoverLeft = xDraw;
-			hoverTop = yDraw;
+			hoverLeft = (xDraw-iWidth/2) +(tankItems[id].x*percentOfSize*relSize);
+			hoverTop = (yDraw-iHeight/2)-(tankItems[id].y*percentOfSize*relSize);
 			hoverWidth = iWidth;
 			hoverHeight = iHeight;
 		}
