@@ -42,7 +42,11 @@ function DecorateTank(tank){
 		if(getRandomInt(0,100)<90){
 			random = getRandomInt(2,4);
 		}else{
-			random = 5;
+			if(getRandomInt(0,100)<50){
+				random = 5;
+			}else{
+				random = getRandomInt(7,8);
+			}
 		}
 		tankDecor[tank].push({"z":z,"id":random,"x":getRandomInt(-300,300),"y":0,"size":(getRandomInt(8,12)/10),"flip":(getRandomInt(0,1)),"image":tankItems[random].image});
 	}
@@ -97,11 +101,12 @@ function DrawTankItems(tank,decorArr,canvas,relSize,xOffset,yOffset){
 		var percentOfSize = iWidth / tankItems[id].width;
 
 		var xDraw = ((canvas.width/2)  +                      ((x*1)*(1+(z*0.007)))*relSize     -        (xOffset/5)*relSize);//*(5-z/10)*relSize;
-		var yDraw = canvas.height - (150*relSize)  - (y * relSize) -    ((z*0.06)*relSize)                -      (((((yOffset+500))/5)*((z-25)*0.01)*relSize)*-1)  + (z*1.8)*relSize;
+		var yDraw = canvas.height -  ((1 - relSize)*5)  - (150*relSize)  - (y * relSize) -    ((z*0.06)*relSize)                -      (((((yOffset+500))/5)*((z-25)*0.01)*relSize)*-1)  + (z*1.8)*relSize;
 
 		drawImageRot(ctx,tankImgs[imgSlot],xDraw+(tankItems[id].x*percentOfSize*relSize),yDraw-(tankItems[id].y*percentOfSize*relSize),iWidth,iHeight,0,flip,false);
 		ctx.fillStyle = "red";
 		ctx.translate(0, 0);
+		//DEBUG ORIGIN POINT
 		//ctx.fillRect(xDraw, yDraw, 5*relSize, 5*relSize);
 
 		if((itemSlotOver == i && tank == selectedTank && movingItemSlot == -1) || (movingItemSlot == i && tank == selectedTank)){

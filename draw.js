@@ -45,32 +45,32 @@ function repeat(){
 		ctx.fillStyle = grd;
 		ctx.fillRect(0,0,canvas.width,canvas.height);
 		ctx.fillStyle = "#3b3b3b";
-		ctx.drawImage(tankImgs[8],(canvas.width/2-bgWidth/2)-xOffset*relativeSizing,(canvas.height/2-bgHeight/2)-(((yOffset+300)/5)/yMult)*relativeSizing,bgWidth,bgHeight);
+		ctx.drawImage(tankImgs[8],(canvas.width/2-bgWidth/2)-xOffset*relativeSizing,(canvas.height/2-bgHeight/2)-(((yOffset+500)/5)/yMult)*relativeSizing,bgWidth,bgHeight);
 		//ctx.fillRect((canvas.width/2-bgWidth/2)-xOffset*relativeSizing,(canvas.height/2-bgHeight/2)-(((yOffset+200)/5)/yMult)*relativeSizing,bgWidth,bgHeight);
-		ctx.strokeRect((canvas.width/2-bgWidth/2)-xOffset*relativeSizing,(canvas.height/2-bgHeight/2)-(((yOffset+300)/5)/yMult)*relativeSizing,bgWidth,bgHeight);
+		ctx.strokeRect((canvas.width/2-bgWidth/2)-xOffset*relativeSizing,(canvas.height/2-bgHeight/2)-(((yOffset+500)/5)/yMult)*relativeSizing,bgWidth,bgHeight);
 		
 		//topleft tank
 		ctx.beginPath();
 		ctx.moveTo(0, 0);
-		ctx.lineTo((canvas.width/2-bgWidth/2)-xOffset*relativeSizing,(canvas.height/2-bgHeight/2)-(((yOffset+300)/5)/yMult)*relativeSizing);
+		ctx.lineTo((canvas.width/2-bgWidth/2)-xOffset*relativeSizing,(canvas.height/2-bgHeight/2)-(((yOffset+500)/5)/yMult)*relativeSizing);
 		ctx.stroke();
 		
 		//topright tank
 		ctx.beginPath();
 		ctx.moveTo(canvas.width, 0);
-		ctx.lineTo((canvas.width/2+bgWidth/2)-xOffset*relativeSizing,(canvas.height/2-bgHeight/2)-(((yOffset+300)/5)/yMult)*relativeSizing);
+		ctx.lineTo((canvas.width/2+bgWidth/2)-xOffset*relativeSizing,(canvas.height/2-bgHeight/2)-(((yOffset+500)/5)/yMult)*relativeSizing);
 		ctx.stroke();
 		
 		//bottomleft tank
 		ctx.beginPath();
 		ctx.moveTo(0, canvas.height);
-		ctx.lineTo((canvas.width/2-bgWidth/2)-xOffset*relativeSizing,(canvas.height/2+bgHeight/2)-(((yOffset+300)/5)/yMult)*relativeSizing);
+		ctx.lineTo((canvas.width/2-bgWidth/2)-xOffset*relativeSizing,(canvas.height/2+bgHeight/2)-(((yOffset+500)/5)/yMult)*relativeSizing);
 		ctx.stroke();
 		
 		//bottomright tank
 		ctx.beginPath();
 		ctx.moveTo(canvas.width, canvas.height);
-		ctx.lineTo((canvas.width/2+bgWidth/2)-xOffset*relativeSizing,(canvas.height/2+bgHeight/2)-(((yOffset+300)/5)/yMult)*relativeSizing);
+		ctx.lineTo((canvas.width/2+bgWidth/2)-xOffset*relativeSizing,(canvas.height/2+bgHeight/2)-(((yOffset+500)/5)/yMult)*relativeSizing);
 		ctx.stroke();
 		
 		var sandW = relativeSizing*tankImgs[2].width;
