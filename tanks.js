@@ -92,10 +92,24 @@ function DrawTankItems(tank,decorArr,canvas,relSize,xOffset,yOffset){
 		}else{
 			ctx.globalAlpha = 1;
 		}
-		drawImageRot(ctx,tankImgs[imgSlot],(canvas.width/2-tankItems[id].x*(z*(x/-100)/100+size/2)*relSize+x*relSize)-(xOffset/5)*(5-z/10)*relSize,(topSand-tankItems[id].y*(z/100+size/2)*relSize+z*relSize)-((yOffset/25)*(5-z/10)/yMult)*relSize,iWidth,iHeight,0,flip,false);
+		//x = -400 - 400 z = 0 - 50
+		//drawImageRot(ctx,tankImgs[imgSlot],(canvas.width/2-tankItems[id].x*(z*(x/100)/100+size/2)*relSize+x*relSize)-(xOffset/5)*(5-z/10)*relSize,(topSand-tankItems[id].y*(z/100+size/2)*relSize+z*relSize)-((yOffset/25)*(5-z/10)/yMult)*relSize,iWidth,iHeight,0,flip,false);
+		var percentOfSize = iWidth / tankItems[id].width;
+
+		var xCenter = tankItems[id].x;
+		var yCenter = tankItems[id].y;
+
+		var xDraw = ((canvas.width/2)  +                      ((x*1)*(1+(z*0.007)))*relSize     -        (xOffset/5)*relSize);//*(5-z/10)*relSize;
+		var yDraw = canvas.height - (150*relSize)  - (y * relSize) -    ((z*0.06)*relSize)                -      (((((yOffset+500))/5)*((z-25)*0.01)*relSize)*-1)  + (z*1.8)*relSize;
+
+		drawImageRot(ctx,tankImgs[imgSlot],xDraw+(tankItems[id].x*percentOfSize*relSize),yDraw-(tankItems[id].y*percentOfSize*relSize),iWidth,iHeight,0,flip,false);
+		ctx.fillStyle = "red";
+		ctx.translate(0, 0);
+		ctx.fillRect(xDraw, yDraw, 5*relSize, 5*relSize);
+
 		if((itemSlotOver == i && tank == selectedTank && movingItemSlot == -1) || (movingItemSlot == i && tank == selectedTank)){
-			hoverLeft = (canvas.width/2-tankItems[id].x*(z*(x/-100)/100+size/2)*relSize+x*relSize)-(xOffset/5)*(5-z/10)*relSize;
-			hoverTop = (topSand-tankItems[id].y*(z/100+size/2)*relSize+z*relSize)-((yOffset/25)*(5-z/10)/yMult)*relSize;
+			hoverLeft = xDraw;
+			hoverTop = yDraw;
 			hoverWidth = iWidth;
 			hoverHeight = iHeight;
 		}
@@ -110,7 +124,7 @@ function drawImageRot(ctx,img,x,y,width,height,deg,flipX,flipY){
     var rad = deg * Math.PI / 180;
 
     //Set the origin to the center of the image
-    ctx.translate(x + width / 2, y + height / 2);
+    ctx.translate(x, y);
 
     //Rotate the canvas around the origin
     ctx.rotate(rad);
@@ -123,11 +137,10 @@ function drawImageRot(ctx,img,x,y,width,height,deg,flipX,flipY){
 	if(flipY){
 		yScale = -1;
 	}
-	ctx.translate(0,0);
 	ctx.scale(xScale,yScale);
 
     //draw the image    
-    ctx.drawImage(img,width / 2 * (-1),height / 2 * (-1),width,height);
+    ctx.drawImage(img,width/2*(-1),height/2* (-1),width,height);
 
     // Restore canvas state as saved from above
     ctx.restore();

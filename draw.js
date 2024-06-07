@@ -36,7 +36,7 @@ function repeat(){
 		
 		var scroller = document.getElementById("aquariums");
 		
-		var relativeSizing = (canvas.width / 1000);
+		var relativeSizing = (canvas.width / 1024);
 		
 		var grd = ctx.createLinearGradient(-800, 800, 800, -800);
 		grd.addColorStop(0, "#8ad4db");
@@ -77,9 +77,9 @@ function repeat(){
 		var sandFW = relativeSizing*tankImgs[3].width;
 		var sandFH = relativeSizing*tankImgs[3].height;
 		
-		ctx.drawImage(tankImgs[GetImageSlot("sb0001.png")],(canvas.width/2-sandW/2)-xOffset*relativeSizing,(canvas.height/2-sandH/2.5)-((yOffset/5)/yMult)*(relativeSizing),sandW,sandH);
+		ctx.drawImage(tankImgs[GetImageSlot("sb0001.png")],(canvas.width/2-sandW/2)-xOffset*relativeSizing,(canvas.height/2-sandH/2.5)-(((yOffset+500)/5)/yMult)*(relativeSizing),sandW,sandH);
 		DrawTankItems(i,tankDecor[i],canvas,relativeSizing,xOffset,yOffset);
-		ctx.drawImage(tankImgs[GetImageSlot("sf0002.png")],0,0,canvas.width ,sandFH);
+		ctx.drawImage(tankImgs[GetImageSlot("sf0002.png")],0,-5*relativeSizing,canvas.width ,sandFH);
 		ctx.drawImage(tankImgs[GetImageSlot("shine1.png")],0,0,canvas.width ,canvas.height);
 		ctx.strokeStyle = "#25393b";
 		ctx.lineWidth = 3;
