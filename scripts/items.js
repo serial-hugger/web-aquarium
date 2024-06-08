@@ -1,14 +1,15 @@
 //ITEM BANK
 var tankItems = [
 {"image":"sb0001.png","type":"sandback"},
-{"image":"sf0002.png","type":"sandfront"},
-{"image":"dp0003.png","type":"decor","name":"Sea Weed","x":0,"y":70,"width":62,"height":169},
-{"image":"dp0004.png","type":"decor","name":"Sea Weed","x":0,"y":50,"width":81,"height":117},
-{"image":"dp0005.png","type":"decor","name":"Sea Weed","x":0,"y":50,"width":98,"height":110},
-{"image":"dp0006.png","type":"decor","name":"Chest","x":0,"y":40,"width":148,"height":127},
-{"image":"bg0001.png","type":"background","name":"Background 1","width":700,"height":350},
-{"image":"dp0007.png","type":"decor","name":"Rock","x":0,"y":60,"width":140,"height":141},
-{"image":"dp0008.png","type":"decor","name":"Rock","x":0,"y":40,"width":84,"height":93}
+{"image":"sf0001.png","type":"sandfront"},
+{"image":"d0001.png","type":"decor","name":"Sea Weed","x":0,"y":70,"width":62,"height":169},
+{"image":"d0002.png","type":"decor","name":"Sea Weed","x":0,"y":50,"width":81,"height":117},
+{"image":"d0003.png","type":"decor","name":"Sea Weed","x":0,"y":50,"width":98,"height":110},
+{"image":"d0004.png","type":"decor","name":"Chest","x":0,"y":40,"width":148,"height":127},
+{"image":"b0001.png","type":"background","name":"Background 1","width":700,"height":350},
+{"image":"d0005.png","type":"decor","name":"Rock","x":0,"y":60,"width":140,"height":141},
+{"image":"d0006.png","type":"decor","name":"Rock","x":0,"y":40,"width":84,"height":93},
+{"image":"f0001.png","type":"fish","name":"Goldfish","x":0,"y":0,"width":84,"height":93}
 ];
 var tankImgs = [];
 function preloadTankImages() {
@@ -19,7 +20,7 @@ function preloadTankImages() {
 		var index = 2;
 		for (i1 = 0; i1 < tankItems.length; i1++) {
 				tankImgs[index] = new Image();
-				tankImgs[index].src = tankItems[i1].image;
+				tankImgs[index].src = tankItems[i1].type + "/" +tankItems[i1].image;
 				//window.alert(tankImgs[index].src);
 				index += 1;
 			//window.alert(tankImgs);

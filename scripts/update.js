@@ -80,7 +80,7 @@ function repeat(){
 		
 		ctx.drawImage(tankImgs[GetImageSlot("sb0001.png")],(canvas.width/2-sandW/2)-xOffset*relativeSizing,(canvas.height/2-sandH/2.5)-(((yOffset+500)/5)/yMult)*(relativeSizing),sandW,sandH);
 		DrawTankItems(i,tankDecor[i],canvas,relativeSizing,xOffset,yOffset);
-		ctx.drawImage(tankImgs[GetImageSlot("sf0002.png")],0,-5*relativeSizing,canvas.width ,sandFH);
+		ctx.drawImage(tankImgs[GetImageSlot("sf0001.png")],0,-5*relativeSizing,canvas.width ,sandFH);
 		ctx.drawImage(tankImgs[GetImageSlot("shine1.png")],0,0,canvas.width ,canvas.height);
 		ctx.strokeStyle = "#25393b";
 		ctx.lineWidth = 3;
@@ -128,4 +128,93 @@ function repeat(){
 		mousePrevX = mouseX;
 	}
 	},30);
+}
+function DrawTankItems(tank,decorArr,canvas,relSize,xOffset,yOffset){
+	var canvas = canvas;
+	var ctx = canvas.getContext("2d");
+	if(tank == selectedTank){
+		itemSlotOver = GetItemAtPos(decorArr,canvas,relSize,xOffset,yOffset);
+	}
+	for(var i=0;i<decorArr.length;i++){
+		var x = decorArr[i].x;
+		var y = decorArr[i].y;
+		var z = decorArr[i].z;
+		var id = decorArr[i].id;
+		var size = decorArr[i].size;
+		var flip = decorArr[i].flip;
+		var imgSlot;
+		imgSlot = GetImageSlot(decorArr[i].image);
+		var iWidth = (tankImgs[imgSlot].width * relSize)*(z/90+size/2);
+		var iHeight = (tankImgs[imgSlot].height * relSize)*(z/90+size/2);
+		var sandW = relSize*tankImgs[0].width;
+		var sandH = relSize*tankImgs[0].height;
+		var topSand = (canvas.height/2)+sandH/4;
+		var bottomSand = (canvas.height/2)+sandH/2.8;
+		if(tank == selectedTank){
+			itemSlotOver = GetItemAtPos(decorArr,canvas,relSize,xOffset,yOffset,topSand);
+		}
+		//topsand draw
+		ctx.beginPath();
+		ctx.moveTo(0, topSand);
+		ctx.lineTo(10000,topSand);
+		//ctx.stroke();
+		//bottomsand draw
+		ctx.beginPath();
+		ctx.moveTo(0, bottomSand);
+		ctx.lineTo(10000,bottomSand);
+		//ctx.stroke();
+		if(movingItemSlot == i && tank == selectedTank){
+			ctx.globalAlpha = 0.6;
+		}else{
+			ctx.globalAlpha = 1;
+		}
+		//x = -400 - 400 z = 0 - 50
+		//drawImageRot(ctx,tankImgs[imgSlot],(canvas.width/2-tankItems[id].x*(z*(x/100)/100+size/2)*relSize+x*relSize)-(xOffset/5)*(5-z/10)*relSize,(topSand-tankItems[id].y*(z/100+size/2)*relSize+z*relSize)-((yOffset/25)*(5-z/10)/yMult)*relSize,iWidth,iHeight,0,flip,false);
+		var percentOfSize = iWidth / tankItems[id].width;
+
+		var xDraw = ((canvas.width/2)  +                      ((x*1)*(1+(z*0.007)))*relSize     -        ((xOffset/5)*((50-z)*0.1))*relSize);//*(5-z/10)*relSize;
+		var yDraw = canvas.height -  ((1 - relSize)*5)  - (150*relSize)  - (y * relSize) -    ((z*0.06)*relSize)                -      (((((yOffset+500))/5)*((z-25)*0.01)*relSize)*-1)  + (z*1.8)*relSize;
+		drawImageRot(ctx,tankImgs[imgSlot],xDraw+(tankItems[id].x*percentOfSize*relSize),yDraw-(tankItems[id].y*percentOfSize*relSize),iWidth,iHeight,0,flip,false);
+		ctx.fillStyle = "red";
+		ctx.translate(0, 0);
+		//DEBUG ORIGIN POINT
+		//ctx.fillRect(xDraw, yDraw, 5*relSize, 5*relSize);
+
+		if((itemSlotOver == i && tank == selectedTank && movingItemSlot == -1) || (movingItemSlot == i && tank == selectedTank)){
+			hoverLeft = (xDraw-iWidth/2) +(tankItems[id].x*percentOfSize*relSize);
+			hoverTop = (yDraw-iHeight/2)-(tankItems[id].y*percentOfSize*relSize);
+			hoverWidth = iWidth;
+			hoverHeight = iHeight;
+		}
+		ctx.globalAlpha = 1;
+	}
+}
+function drawImageRot(ctx,img,x,y,width,height,deg,flipX,flipY){
+    // Store the current context state (i.e. rotation, translation etc..)
+    ctx.save()
+
+    //Convert degrees to radian 
+    var rad = deg * Math.PI / 180;
+
+    //Set the origin to the center of the image
+    ctx.translate(x, y);
+
+    //Rotate the canvas around the origin
+    ctx.rotate(rad);
+
+	var xScale = 1;
+	var yScale = 1;
+	if(flipX){
+		xScale = -1;
+	}
+	if(flipY){
+		yScale = -1;
+	}
+	ctx.scale(xScale,yScale);
+
+    //draw the image    
+    ctx.drawImage(img,width/2*(-1),height/2* (-1),width,height);
+
+    // Restore canvas state as saved from above
+    ctx.restore();
 }
