@@ -2,24 +2,19 @@ function lerp( a, b, alpha ) {
 	return a + alpha * ( b - a );
 }
 var currentSway = 0;
-var swayChange = 1;
 function repeat(){
 	setInterval(function(){
+		if(movingItemSlot == -1){
+			tankDecor[selectedTank].sort(function(a,b){
+				return parseFloat(a.z) - parseFloat(b.z);
+			});
+		}
+	},100);
+	setInterval(function(){
 	//SWAYING ANIMATION
-	currentSway += swayChange;
-	if(currentSway > 50){
-		swayChange = -1;
-	}
-	if(currentSway < -50){
-		swayChange = 1;
-	}
+	currentSway += 1;
 	UpdateCursor();
 	cursor = 0;
-	if(movingItemSlot == -1){
-		tankDecor[selectedTank].sort(function(a,b){
-			return parseFloat(a.z) - parseFloat(b.z);
-		});
-	}
 	//Window size details
 	var width = document.body.clientWidth;
 
@@ -98,13 +93,20 @@ function repeat(){
 		ctx.fillStyle = "#367c8f";
 		ctx.fillRect(0,50*relativeSizing,canvas.width,canvas.height);
 		
+		var maxSway = 50;
+		var actualSway = ((currentSway)%(maxSway*2));
+		if(actualSway >= maxSway){
+			actualSway = maxSway - (actualSway%maxSway);
+		}
+		actualSway *= 1;
+
 		//top water
 		ctx.fillStyle = "#38b6d9";
 		ctx.globalAlpha = 0.3;
 		var path=new Path2D();
 		path.moveTo((canvas.width/2)-xOffset*10,-200);
-		path.lineTo(0,(50-currentSway*0.06)*relativeSizing);
-		path.lineTo(canvas.width,(50+currentSway*0.06)*relativeSizing);
+		path.lineTo(0,(50-actualSway*0.06)*relativeSizing);
+		path.lineTo(canvas.width,(50+actualSway*0.06)*relativeSizing);
 		ctx.fill(path);
 		ctx.globalAlpha = 1;
 
@@ -112,8 +114,8 @@ function repeat(){
 		ctx.lineWidth = 3*relativeSizing;
 		ctx.strokeStyle = "#678c91";
 		ctx.beginPath();
-		ctx.moveTo(0, (50-currentSway*0.06)*relativeSizing);
-		ctx.lineTo(canvas.width,(50+currentSway*0.06)*relativeSizing);
+		ctx.moveTo(0, (50-actualSway*0.06)*relativeSizing);
+		ctx.lineTo(canvas.width,(50+actualSway*0.06)*relativeSizing);
 		ctx.stroke();
 
 		ctx.drawImage(tankImgs[GetImageSlot("shine1.png")],0,0,canvas.width ,canvas.height);
@@ -162,7 +164,7 @@ function repeat(){
 		mousePrevY = mouseY;
 		mousePrevX = mouseX;
 	}
-	},30);
+	},50);
 }
 function DrawTankItems(tank,decorArr,canvas,relSize,xOffset,yOffset){
 	var canvas = canvas;
@@ -211,28 +213,51 @@ function DrawTankItems(tank,decorArr,canvas,relSize,xOffset,yOffset){
 		var flip;
 		var rot = 360;
 		var swayXOffset = 0;
+		var fishYOffset = 0;
+
 		if(type == "decor"){
+			//GET ACTUAL SWAY
+			var maxSway = 50;
+			var actualSway = ((currentSway+(x*0.2)+(z*0.2))%(maxSway*2));
+			if(actualSway >= maxSway){
+				actualSway = maxSway - (actualSway%maxSway);
+			}
+			actualSway *= 0.05;
+
 			flip = decorArr[i].flip;
 			if(tankItems[decorArr[i].id].sway){
+				swayXOffset -= (actualSway*2) * relSize;
 				if(flip){
-					rot = (360) + currentSway*0.05;
+					rot = (360) + actualSway;
 				}else{
-					rot = (360) - currentSway*0.05;
+					rot = (360) - actualSway;
 				}
-				swayXOffset -= (currentSway*0.1) * relSize;
+			}else{
+				actualSway = 0;
 			}
 		}
 		if(type == "fish"){
+			//GET ACTUAL SWAY
+			var maxSway = 50-(Math.abs(decorArr[i].moveX)+Math.abs(decorArr[i].moveY))*0.25;
+			var actualSway = ((currentSway+(decorArr[i].moveX*0.2)+(decorArr[i].moveZ*0.2))%(maxSway*2));
+			if(actualSway >= maxSway){
+				actualSway = maxSway - (actualSway%maxSway);
+			}
+			actualSway *= 0.05;
+
+
+			fishYOffset = actualSway*5*relSize;
 			rot = decorArr[i].rotation;
+
 			if(decorArr[i].moveX>=0){
 				flip = false;
 			}else{
 				flip = true;
 			}
 			if(flip){
-				rot = lerp(rot,360-(decorArr[i].moveY*0.5),0.2);
+				rot = lerp(rot,360-(decorArr[i].moveY*0.5)+actualSway*2,.5);
 			}else{
-				rot = lerp(rot,360-(decorArr[i].moveY*0.5),0.2);
+				rot = lerp(rot,360-(decorArr[i].moveY*0.5)+actualSway*2,.5);
 			}
 			decorArr[i].rotation = rot;
 		}
@@ -248,6 +273,7 @@ function DrawTankItems(tank,decorArr,canvas,relSize,xOffset,yOffset){
 		if(tank == selectedTank){
 			itemSlotOver = GetItemAtPos(decorArr,canvas,relSize,xOffset,yOffset,topSand);
 		}
+
 		//topsand draw
 		ctx.beginPath();
 		ctx.moveTo(0, topSand);
@@ -270,7 +296,7 @@ function DrawTankItems(tank,decorArr,canvas,relSize,xOffset,yOffset){
 		var xDraw = ((canvas.width/2)  +                      ((x*1)*(1+(z*0.007)))*relSize     -        ((xOffset/5)*((50-z)*0.1))*relSize);//*(5-z/10)*relSize;
 		var yDraw = canvas.height -  ((1 - relSize)*5)  - (150*relSize)  - (y * relSize) -    ((z*0.06)*relSize)                -      (((((yOffset+500))/5)*((z-25)*0.01)*relSize)*-1)  + (z*1.8)*relSize;
 
-		drawImageRot(ctx,tankImgs[imgSlot],xDraw+swayXOffset+(tankItems[id].x*percentOfSize*relSize),yDraw-(tankItems[id].y*percentOfSize*relSize),iWidth,iHeight,rot,flip,false);
+		drawImageRot(ctx,tankImgs[imgSlot],xDraw+swayXOffset+(tankItems[id].x*percentOfSize*relSize),yDraw+fishYOffset-(tankItems[id].y*percentOfSize*relSize),iWidth,iHeight,rot,flip,false);
 		ctx.fillStyle = "red";
 		ctx.translate(0, 0);
 		//DEBUG ORIGIN POINT
