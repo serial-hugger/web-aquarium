@@ -1,3 +1,6 @@
+function lerp( a, b, alpha ) {
+	return a + alpha * ( b - a );
+}
 function repeat(){
 	setInterval(function(){
 	UpdateCursor();
@@ -136,12 +139,46 @@ function DrawTankItems(tank,decorArr,canvas,relSize,xOffset,yOffset){
 		itemSlotOver = GetItemAtPos(decorArr,canvas,relSize,xOffset,yOffset);
 	}
 	for(var i=0;i<decorArr.length;i++){
+		//UPDATE
+		if(tankItems[decorArr[i].id].type =="fish"){
+			decorArr[i].x += decorArr[i].moveX*0.01;
+			decorArr[i].y += decorArr[i].moveY*0.01;
+			decorArr[i].z += decorArr[i].moveZ*0.01;
+			if(decorArr[i].x<=-300||decorArr[i].x>=300){
+				decorArr[i].moveX *= -1;
+			}
+			if(decorArr[i].y<=50||decorArr[i].y>=250){
+				decorArr[i].moveY *= -1;
+			}
+			if(decorArr[i].z<=0||decorArr[i].z>=50){
+				decorArr[i].moveZ *= -1;
+			}
+		}
+		
+		//DRAW
 		var x = decorArr[i].x;
 		var y = decorArr[i].y;
 		var z = decorArr[i].z;
 		var id = decorArr[i].id;
 		var size = decorArr[i].size;
-		var flip = decorArr[i].flip;
+		var type = tankItems[decorArr[i].id].type;
+		var flip;
+		var rot = decorArr[i].rotation;
+		if(type == "decor"){
+			flip = decorArr[i].flip;
+		}else{
+			if(decorArr[i].moveX>=0){
+				flip = false;
+			}else{
+				flip = true;
+			}
+			if(flip){
+				rot = lerp(rot,360+(decorArr[i].moveY*0.5),0.2);
+			}else{
+				rot = lerp(rot,360-(decorArr[i].moveY*0.5),0.2);
+			}
+			decorArr[i].rotation = rot;
+		}
 		var imgSlot;
 		imgSlot = GetImageSlot(decorArr[i].image);
 		var iWidth = (tankImgs[imgSlot].width * relSize)*(z/90+size/2);
@@ -150,6 +187,7 @@ function DrawTankItems(tank,decorArr,canvas,relSize,xOffset,yOffset){
 		var sandH = relSize*tankImgs[0].height;
 		var topSand = (canvas.height/2)+sandH/4;
 		var bottomSand = (canvas.height/2)+sandH/2.8;
+
 		if(tank == selectedTank){
 			itemSlotOver = GetItemAtPos(decorArr,canvas,relSize,xOffset,yOffset,topSand);
 		}
@@ -168,13 +206,13 @@ function DrawTankItems(tank,decorArr,canvas,relSize,xOffset,yOffset){
 		}else{
 			ctx.globalAlpha = 1;
 		}
+
 		//x = -400 - 400 z = 0 - 50
-		//drawImageRot(ctx,tankImgs[imgSlot],(canvas.width/2-tankItems[id].x*(z*(x/100)/100+size/2)*relSize+x*relSize)-(xOffset/5)*(5-z/10)*relSize,(topSand-tankItems[id].y*(z/100+size/2)*relSize+z*relSize)-((yOffset/25)*(5-z/10)/yMult)*relSize,iWidth,iHeight,0,flip,false);
 		var percentOfSize = iWidth / tankItems[id].width;
 
 		var xDraw = ((canvas.width/2)  +                      ((x*1)*(1+(z*0.007)))*relSize     -        ((xOffset/5)*((50-z)*0.1))*relSize);//*(5-z/10)*relSize;
 		var yDraw = canvas.height -  ((1 - relSize)*5)  - (150*relSize)  - (y * relSize) -    ((z*0.06)*relSize)                -      (((((yOffset+500))/5)*((z-25)*0.01)*relSize)*-1)  + (z*1.8)*relSize;
-		drawImageRot(ctx,tankImgs[imgSlot],xDraw+(tankItems[id].x*percentOfSize*relSize),yDraw-(tankItems[id].y*percentOfSize*relSize),iWidth,iHeight,0,flip,false);
+		drawImageRot(ctx,tankImgs[imgSlot],xDraw+(tankItems[id].x*percentOfSize*relSize),yDraw-(tankItems[id].y*percentOfSize*relSize),iWidth,iHeight,rot,flip,false);
 		ctx.fillStyle = "red";
 		ctx.translate(0, 0);
 		//DEBUG ORIGIN POINT

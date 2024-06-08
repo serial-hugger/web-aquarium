@@ -43,7 +43,7 @@ function DecorateTank(tank){
 	}
 	for(f=0;f<10;f+=getRandomInt(2,3)){
 		var id = GetRandomItem("fish");
-		tankDecor[tank].push({"z":z,"id":id,"x":getRandomInt(-300,300),"y":getRandomInt(25,250),"size":0.5,"flip":(getRandomInt(0,1)),"image":tankItems[id].image});
+		tankDecor[tank].push({"z":getRandomInt(0,50),"id":id,"x":getRandomInt(-300,300),"y":getRandomInt(50,250),"size":0.5,"image":tankItems[id].image,"moveX":getRandomInt(-100,100),"moveY":getRandomInt(-50,50),"moveZ":getRandomInt(-1,1),"rotation":360});
 	}
 }
 function DecorateAll(){
