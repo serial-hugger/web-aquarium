@@ -38,9 +38,9 @@ function repeat(){
 		
 		var relativeSizing = (canvas.width / 1024);
 		
-		var grd = ctx.createLinearGradient(-800, 800, 800, -800);
+		var grd = ctx.createLinearGradient(-800*relativeSizing, 800*relativeSizing, 800*relativeSizing, -800*relativeSizing);
 		grd.addColorStop(0, "#2b2b2b");
-		grd.addColorStop(.1, "#1a1a1a");
+		grd.addColorStop(.1, "#ababab");
 		grd.addColorStop(1, "#2b2b2b");
 		ctx.fillStyle = grd;
 		ctx.fillRect(0,0,canvas.width,canvas.height);

@@ -48,3 +48,19 @@ function SetItemInfo(info,type,value){
 		}
 	}
 }
+function GetRandomItem(type){
+	index = getRandomInt(0,tankItems.length);
+	totalSteps = getRandomInt(0,10);
+	while(true){
+		index ++;
+		if(index > tankItems.length-1){
+			index = 0;
+		}
+		if(tankItems[index].type==type){
+			totalSteps-=1;
+			if(totalSteps <= 0){
+				return index;
+			}
+		}
+	}
+}

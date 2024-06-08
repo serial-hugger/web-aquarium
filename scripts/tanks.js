@@ -38,17 +38,8 @@ function CreateTank(tank){
 function DecorateTank(tank){
 	tankDecor[tank] = [];
 	for(z=0;z<50;z+=getRandomInt(2,3)){
-		var random;
-		if(getRandomInt(0,100)<90){
-			random = getRandomInt(2,4);
-		}else{
-			if(getRandomInt(0,100)<50){
-				random = 5;
-			}else{
-				random = getRandomInt(7,8);
-			}
-		}
-		tankDecor[tank].push({"z":z,"id":random,"x":getRandomInt(-300,300),"y":0,"size":(getRandomInt(8,12)/10),"flip":(getRandomInt(0,1)),"image":tankItems[random].image});
+		var id = GetRandomItem("decor");
+		tankDecor[tank].push({"z":z,"id":id,"x":getRandomInt(-300,300),"y":0,"size":(getRandomInt(8,12)/10),"flip":(getRandomInt(0,1)),"image":tankItems[id].image});
 	}
 }
 function DecorateAll(){
