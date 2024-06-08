@@ -216,7 +216,7 @@ function DrawTankItems(tank,decorArr,canvas,relSize,xOffset,yOffset){
 		ctx.fillStyle = "red";
 		ctx.translate(0, 0);
 		//DEBUG ORIGIN POINT
-		//ctx.fillRect(xDraw, yDraw, 5*relSize, 5*relSize);
+		ctx.fillRect(xDraw, yDraw, 5*relSize, 5*relSize);
 
 		if((itemSlotOver == i && tank == selectedTank && movingItemSlot == -1) || (movingItemSlot == i && tank == selectedTank)){
 			hoverLeft = (xDraw-iWidth/2) +(tankItems[id].x*percentOfSize*relSize);
