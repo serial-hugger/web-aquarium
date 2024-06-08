@@ -1,8 +1,18 @@
 function lerp( a, b, alpha ) {
 	return a + alpha * ( b - a );
 }
+var currentSway = 0;
+var swayChange = 1;
 function repeat(){
 	setInterval(function(){
+	//SWAYING ANIMATION
+	currentSway += swayChange;
+	if(currentSway > 50){
+		swayChange = -1;
+	}
+	if(currentSway < -50){
+		swayChange = 1;
+	}
 	UpdateCursor();
 	cursor = 0;
 	if(movingItemSlot == -1){
@@ -84,6 +94,28 @@ function repeat(){
 		ctx.drawImage(tankImgs[GetImageSlot("sb0001.png")],(canvas.width/2-sandW/2)-xOffset*relativeSizing,(canvas.height/2-sandH/2.5)-(((yOffset+500)/5)/yMult)*(relativeSizing),sandW,sandH);
 		DrawTankItems(i,tankDecor[i],canvas,relativeSizing,xOffset,yOffset);
 		ctx.drawImage(tankImgs[GetImageSlot("sf0001.png")],0,-5*relativeSizing,canvas.width ,sandFH);
+		ctx.globalAlpha = 0.1;
+		ctx.fillStyle = "#367c8f";
+		ctx.fillRect(0,50*relativeSizing,canvas.width,canvas.height);
+		
+		//top water
+		ctx.fillStyle = "#38b6d9";
+		ctx.globalAlpha = 0.2;
+		var path=new Path2D();
+		path.moveTo((canvas.width/2)-xOffset*10,-200);
+		path.lineTo(0,(50-currentSway*0.06)*relativeSizing);
+		path.lineTo(canvas.width,(50+currentSway*0.06)*relativeSizing);
+		ctx.fill(path);
+		ctx.globalAlpha = 1;
+
+		//wayer at top of tank
+		ctx.lineWidth = 3*relativeSizing;
+		ctx.strokeStyle = "#537175";
+		ctx.beginPath();
+		ctx.moveTo(0, (50-currentSway*0.06)*relativeSizing);
+		ctx.lineTo(canvas.width,(50+currentSway*0.06)*relativeSizing);
+		ctx.stroke();
+
 		ctx.drawImage(tankImgs[GetImageSlot("shine1.png")],0,0,canvas.width ,canvas.height);
 		ctx.strokeStyle = "#25393b";
 		ctx.lineWidth = 3;
@@ -141,17 +173,31 @@ function DrawTankItems(tank,decorArr,canvas,relSize,xOffset,yOffset){
 	for(var i=0;i<decorArr.length;i++){
 		//UPDATE
 		if(tankItems[decorArr[i].id].type =="fish"){
+			if(getRandomInt(0,1000)>=999){
+				decorArr[i].moveX = getRandomInt(-100,100);
+				decorArr[i].moveY = getRandomInt(-50,50);
+				decorArr[i].moveZ = getRandomInt(-1,1);
+			}
 			decorArr[i].x += decorArr[i].moveX*0.01;
 			decorArr[i].y += decorArr[i].moveY*0.01;
 			decorArr[i].z += decorArr[i].moveZ*0.01;
-			if(decorArr[i].x<=-300||decorArr[i].x>=300){
-				decorArr[i].moveX *= -1;
+			if(decorArr[i].x<=-300){
+				decorArr[i].moveX = getRandomInt(50,100);
 			}
-			if(decorArr[i].y<=50||decorArr[i].y>=250){
-				decorArr[i].moveY *= -1;
+			if(decorArr[i].x>=300){
+				decorArr[i].moveX = getRandomInt(-50,-100);
 			}
-			if(decorArr[i].z<=0||decorArr[i].z>=50){
-				decorArr[i].moveZ *= -1;
+			if(decorArr[i].y<=50){
+				decorArr[i].moveY = getRandomInt(25,50);
+			}
+			if(decorArr[i].y>=250){
+				decorArr[i].moveY = getRandomInt(-25,-50);
+			}
+			if(decorArr[i].z<=0){
+				decorArr[i].moveZ = getRandomInt(0,1);
+			}
+			if(decorArr[i].z>=50){
+				decorArr[i].moveZ = getRandomInt(0,-1);
 			}
 		}
 		
@@ -163,17 +209,28 @@ function DrawTankItems(tank,decorArr,canvas,relSize,xOffset,yOffset){
 		var size = decorArr[i].size;
 		var type = tankItems[decorArr[i].id].type;
 		var flip;
-		var rot = decorArr[i].rotation;
+		var rot = 360;
+		var swayXOffset = 0;
 		if(type == "decor"){
 			flip = decorArr[i].flip;
-		}else{
+			if(tankItems[decorArr[i].id].sway){
+				if(flip){
+					rot = (360) + currentSway*0.05;
+				}else{
+					rot = (360) - currentSway*0.05;
+				}
+				swayXOffset -= (currentSway*0.1) * relSize;
+			}
+		}
+		if(type == "fish"){
+			rot = decorArr[i].rotation;
 			if(decorArr[i].moveX>=0){
 				flip = false;
 			}else{
 				flip = true;
 			}
 			if(flip){
-				rot = lerp(rot,360+(decorArr[i].moveY*0.5),0.2);
+				rot = lerp(rot,360-(decorArr[i].moveY*0.5),0.2);
 			}else{
 				rot = lerp(rot,360-(decorArr[i].moveY*0.5),0.2);
 			}
@@ -212,11 +269,12 @@ function DrawTankItems(tank,decorArr,canvas,relSize,xOffset,yOffset){
 
 		var xDraw = ((canvas.width/2)  +                      ((x*1)*(1+(z*0.007)))*relSize     -        ((xOffset/5)*((50-z)*0.1))*relSize);//*(5-z/10)*relSize;
 		var yDraw = canvas.height -  ((1 - relSize)*5)  - (150*relSize)  - (y * relSize) -    ((z*0.06)*relSize)                -      (((((yOffset+500))/5)*((z-25)*0.01)*relSize)*-1)  + (z*1.8)*relSize;
-		drawImageRot(ctx,tankImgs[imgSlot],xDraw+(tankItems[id].x*percentOfSize*relSize),yDraw-(tankItems[id].y*percentOfSize*relSize),iWidth,iHeight,rot,flip,false);
+
+		drawImageRot(ctx,tankImgs[imgSlot],xDraw+swayXOffset+(tankItems[id].x*percentOfSize*relSize),yDraw-(tankItems[id].y*percentOfSize*relSize),iWidth,iHeight,rot,flip,false);
 		ctx.fillStyle = "red";
 		ctx.translate(0, 0);
 		//DEBUG ORIGIN POINT
-		ctx.fillRect(xDraw, yDraw, 5*relSize, 5*relSize);
+		//ctx.fillRect(xDraw, yDraw, 5*relSize, 5*relSize);
 
 		if((itemSlotOver == i && tank == selectedTank && movingItemSlot == -1) || (movingItemSlot == i && tank == selectedTank)){
 			hoverLeft = (xDraw-iWidth/2) +(tankItems[id].x*percentOfSize*relSize);
@@ -237,9 +295,6 @@ function drawImageRot(ctx,img,x,y,width,height,deg,flipX,flipY){
     //Set the origin to the center of the image
     ctx.translate(x, y);
 
-    //Rotate the canvas around the origin
-    ctx.rotate(rad);
-
 	var xScale = 1;
 	var yScale = 1;
 	if(flipX){
@@ -249,6 +304,9 @@ function drawImageRot(ctx,img,x,y,width,height,deg,flipX,flipY){
 		yScale = -1;
 	}
 	ctx.scale(xScale,yScale);
+
+	//Rotate the canvas around the origin
+	ctx.rotate(rad);
 
     //draw the image    
     ctx.drawImage(img,width/2*(-1),height/2* (-1),width,height);

@@ -2,9 +2,9 @@
 var tankItems = [
 {"image":"sb0001.png","type":"sandback"},
 {"image":"sf0001.png","type":"sandfront"},
-{"image":"d0001.png","type":"decor","name":"Sea Weed","x":0,"y":70,"width":62,"height":169},
-{"image":"d0002.png","type":"decor","name":"Sea Weed","x":0,"y":50,"width":81,"height":117},
-{"image":"d0003.png","type":"decor","name":"Sea Weed","x":0,"y":50,"width":98,"height":110},
+{"image":"d0001.png","type":"decor","name":"Sea Weed","x":0,"y":70,"width":62,"height":169,"sway":true},
+{"image":"d0002.png","type":"decor","name":"Sea Weed","x":0,"y":50,"width":81,"height":117,"sway":true},
+{"image":"d0003.png","type":"decor","name":"Sea Weed","x":0,"y":50,"width":98,"height":110,"sway":true},
 {"image":"d0004.png","type":"decor","name":"Chest","x":0,"y":40,"width":148,"height":127},
 {"image":"b0001.png","type":"background","name":"Background 1","width":700,"height":350},
 {"image":"d0005.png","type":"decor","name":"Rock","x":0,"y":60,"width":140,"height":141},
