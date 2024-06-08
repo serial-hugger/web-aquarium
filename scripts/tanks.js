@@ -41,6 +41,10 @@ function DecorateTank(tank){
 		var id = GetRandomItem("decor");
 		tankDecor[tank].push({"z":z,"id":id,"x":getRandomInt(-300,300),"y":0,"size":(getRandomInt(8,12)/10),"flip":(getRandomInt(0,1)),"image":tankItems[id].image});
 	}
+	for(f=0;f<10;f+=getRandomInt(2,3)){
+		var id = GetRandomItem("fish");
+		tankDecor[tank].push({"z":z,"id":id,"x":getRandomInt(-300,300),"y":getRandomInt(25,250),"size":0.5,"flip":(getRandomInt(0,1)),"image":tankItems[id].image});
+	}
 }
 function DecorateAll(){
 	for(i = 0; i<aquariums.length;i++){

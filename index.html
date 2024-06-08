@@ -38,26 +38,28 @@ body {
 function GetItemAtPos(decorArr,canvas,relSize,xOffset,yOffset,topSand){
 	var currentSel = -1;
 	for(var i = 0;i<decorArr.length;i++){
-		var x = decorArr[i].x;
-		var y = decorArr[i].y;
-		var z = decorArr[i].z;
-		var id = decorArr[i].id;
-		var size = decorArr[i].size;
-		var flip = decorArr[i].flip;
-		var imgSlot = GetImageSlot(decorArr[i].image);
-		var iWidth = (tankImgs[imgSlot].width * relSize)*(z/100+size/2);
-		var iHeight = (tankImgs[imgSlot].height * relSize)*(z/100+size/2);
+		if(true||tankItems[decorArr[i].id].type=="decor"){
+			var x = decorArr[i].x;
+			var y = decorArr[i].y;
+			var z = decorArr[i].z;
+			var id = decorArr[i].id;
+			var size = decorArr[i].size;
+			var flip = decorArr[i].flip;
+			var imgSlot = GetImageSlot(decorArr[i].image);
+			var iWidth = (tankImgs[imgSlot].width * relSize)*(z/100+size/2);
+			var iHeight = (tankImgs[imgSlot].height * relSize)*(z/100+size/2);
 
-		var percentOfSize = iWidth / tankItems[id].width;
+			var percentOfSize = iWidth / tankItems[id].width;
 
-		var xDraw = ((canvas.width/2)  +                      ((x*1)*(1+(z*0.007)))*relSize     -        ((xOffset/5)*((50-z)*0.1))*relSize);//*(5-z/10)*relSize;
-		var yDraw = canvas.height - (150*relSize)  - (y * relSize) -    ((z*0.06)*relSize)                -      (((((yOffset+500))/5)*((z-25)*0.01)*relSize)*-1)  + (z*1.8)*relSize;
+			var xDraw = ((canvas.width/2)  +                      ((x*1)*(1+(z*0.007)))*relSize     -        ((xOffset/5)*((50-z)*0.1))*relSize);//*(5-z/10)*relSize;
+			var yDraw = canvas.height - (150*relSize)  - (y * relSize) -    ((z*0.06)*relSize)                -      (((((yOffset+500))/5)*((z-25)*0.01)*relSize)*-1)  + (z*1.8)*relSize;
 
-		var left = (xDraw-iWidth/2) +(tankItems[id].x*percentOfSize*relSize);
-		var top = (yDraw-iHeight/2)-(tankItems[id].y*percentOfSize*relSize);
+			var left = (xDraw-iWidth/2) +(tankItems[id].x*percentOfSize*relSize);
+			var top = (yDraw-iHeight/2)-(tankItems[id].y*percentOfSize*relSize);
 
-		if(mouseX > left && mouseX < left + iWidth && mouseY > top && mouseY < top + iHeight){
-			currentSel = i;
+			if(mouseX > left && mouseX < left + iWidth && mouseY > top && mouseY < top + iHeight){
+				currentSel = i;
+			}
 		}
 	}
 	return currentSel;

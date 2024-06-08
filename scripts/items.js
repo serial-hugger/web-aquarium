@@ -9,7 +9,9 @@ var tankItems = [
 {"image":"b0001.png","type":"background","name":"Background 1","width":700,"height":350},
 {"image":"d0005.png","type":"decor","name":"Rock","x":0,"y":60,"width":140,"height":141},
 {"image":"d0006.png","type":"decor","name":"Rock","x":0,"y":40,"width":84,"height":93},
-{"image":"f0001.png","type":"fish","name":"Goldfish","x":0,"y":0,"width":84,"height":93}
+{"image":"f0001.png","type":"fish","name":"Goldfish","x":0,"y":0,"width":84,"height":93},
+{"image":"f0002.png","type":"fish","name":"Clownfish","x":0,"y":0,"width":153,"height":128},
+{"image":"f0003.png","type":"fish","name":"Betta Fish","x":0,"y":0,"width":126,"height":119}
 ];
 var tankImgs = [];
 function preloadTankImages() {
