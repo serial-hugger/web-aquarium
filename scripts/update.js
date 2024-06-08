@@ -100,7 +100,7 @@ function repeat(){
 		
 		//top water
 		ctx.fillStyle = "#38b6d9";
-		ctx.globalAlpha = 0.2;
+		ctx.globalAlpha = 0.3;
 		var path=new Path2D();
 		path.moveTo((canvas.width/2)-xOffset*10,-200);
 		path.lineTo(0,(50-currentSway*0.06)*relativeSizing);
@@ -110,7 +110,7 @@ function repeat(){
 
 		//wayer at top of tank
 		ctx.lineWidth = 3*relativeSizing;
-		ctx.strokeStyle = "#537175";
+		ctx.strokeStyle = "#678c91";
 		ctx.beginPath();
 		ctx.moveTo(0, (50-currentSway*0.06)*relativeSizing);
 		ctx.lineTo(canvas.width,(50+currentSway*0.06)*relativeSizing);
@@ -194,10 +194,10 @@ function DrawTankItems(tank,decorArr,canvas,relSize,xOffset,yOffset){
 				decorArr[i].moveY = getRandomInt(-25,-50);
 			}
 			if(decorArr[i].z<=0){
-				decorArr[i].moveZ = getRandomInt(0,1);
+				decorArr[i].moveZ = getRandomInt(0,10);
 			}
 			if(decorArr[i].z>=50){
-				decorArr[i].moveZ = getRandomInt(0,-1);
+				decorArr[i].moveZ = getRandomInt(0,-10);
 			}
 		}
 		
