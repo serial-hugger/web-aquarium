@@ -7,15 +7,20 @@
 <body>
 <style>
 body {
-  background-image: url('pebblebg.png'),url('sandbg.png');
+	background: #ffffff;
   background-repeat: no-repeat,repeat;
   background-attachment: fixed;
   background-position: center;
   background-size: 1200px 1000px,20% 20%;
 }
+.container{
+	width :60vw;
+	height:30vw;
+	margin: auto;
+}
 .aquariumlist {
   margin: auto;
-  width: 1025px;
+  width: 60vw;
   height:123px;
   display: flex; 
   overflow-x: scroll;
@@ -25,8 +30,8 @@ body {
 }
 .menubanner {
   margin: auto;
-  width: 1027px;
-  height:90px;
+  width: 60vw;
+  height:100px;
   display: flex; 
   overflow-x: none;
   overflow-y: none;
@@ -47,7 +52,7 @@ img:hover {
 }
 </style>
 <div class = "container" id="container">
-	<canvas id = "selectedaquarium" width = 1023 height = 511.5 style = "border:2px solid #5e5e5e;margin:auto auto auto auto;display: flex;z-index:0"></canvas>
+	<canvas id = "selectedaquarium" style = "margin:auto auto auto auto;display: flex;z-index:0"></canvas>
 </div>
 <div class="menubanner" id = "menu"></div>
 <div class="aquariumlist" id = "aquariums"></div>
@@ -56,7 +61,7 @@ img:hover {
 <script src="scripts/tanks.js"></script>
 <script src="scripts/update.js"></script> 
 <script>
-
+var mode = "default";
 
 function GetItemAtPos(decorArr,canvas,relSize,xOffset,yOffset,topSand){
 	var currentSel = -1;
@@ -103,14 +108,22 @@ function CreateButtons(){
 	//CREATE DEFAULT BUTTON
 	button = document.createElement("image");
 	button.id = ("button1");
-	button.onclick = function(){buttonDefaultMode()};
-	button.innerHTML = "<div class=\"img-with-text\"><img src=ui/default.png onmouseover=this.src='ui/default_hover.png' onmouseout=this.src='ui/default.png' width=\"80px\" height=\"60px\" alt=\"INTERACT\"></img><p><b>INTERACT</b></p></div>";
+	if(mode!="default"){
+		button.onclick = function(){ButtonDefaultMode()};
+		button.innerHTML = "<div class=\"img-with-text\"><img src=ui/default.png onmouseover=this.src='ui/default_hover.png' onmouseout=this.src='ui/default.png' width=\"80px\" height=\"60px\" alt=\"INTERACT\"></img><p><b>INTERACT</b></p></div>";
+	}else{
+		button.innerHTML = "<div class=\"img-with-text\"><img src=ui/default_select.png width=\"80px\" height=\"60px\" alt=\"INTERACT\"></img><p><b>INTERACT</b></p></div>";
+	}
 	document.getElementById("menu").appendChild(button);
 	//CREATE EDIT BUTTON
 	button = document.createElement("image");
 	button.id = ("button2");
-	button.onclick = function(){buttonEditMode()};
-	button.innerHTML = "<div class=\"img-with-text\"><img src=ui/edit.png onmouseover=this.src='ui/edit_hover.png' onmouseout=this.src='ui/edit.png' width=\"80px\" height=\"60px\" alt=\"EDIT\"></img><p><b>EDIT</b></p></div>";
+	if(mode!="edit"){
+		button.onclick = function(){ButtonEditMode()};
+		button.innerHTML = "<div class=\"img-with-text\"><img src=ui/edit.png onmouseover=this.src='ui/edit_hover.png' onmouseout=this.src='ui/edit.png' width=\"80px\" height=\"60px\" alt=\"EDIT\"></img><p><b>EDIT</b></p></div>";
+	}else{
+		button.innerHTML = "<div class=\"img-with-text\"><img src=ui/edit_select.png width=\"80px\" height=\"60px\" alt=\"EDIT\"></img><p><b>EDIT</b></p></div>";
+	}
 	hr = document.createElement("hr");
 	hr.innerHTML = "<hr style=\"width: 1px;></hr>";
 	document.getElementById("menu").appendChild(hr);
@@ -118,8 +131,12 @@ function CreateButtons(){
 	//CREATE TANK BUTTON
 	button = document.createElement("image");
 	button.id = ("button3");
-	button.onclick = function(){buttonTanksMode()};
-	button.innerHTML = "<div class=\"img-with-text\"><img src=ui/tanks.png onmouseover=this.src='ui/tanks_hover.png' onmouseout=this.src='ui/tanks.png' width=\"80px\" height=\"60px\" alt=\"TANKS\"></img><p><b>TANKS</b></p></div>";
+	if(mode!="tanks"){
+		button.onclick = function(){ButtonTanksMode()};
+		button.innerHTML = "<div class=\"img-with-text\"><img src=ui/tanks.png onmouseover=this.src='ui/tanks_hover.png' onmouseout=this.src='ui/tanks.png' width=\"80px\" height=\"60px\" alt=\"TANKS\"></img><p><b>TANKS</b></p></div>";
+	}else{
+		button.innerHTML = "<div class=\"img-with-text\"><img src=ui/tanks_select.png width=\"80px\" height=\"60px\" alt=\"TANKS\"></img><p><b>TANKS</b></p></div>";
+	}
 	hr = document.createElement("hr");
 	hr.innerHTML = "<hr style=\"width: 1px;></hr>";
 	document.getElementById("menu").appendChild(hr);
@@ -127,8 +144,12 @@ function CreateButtons(){
 	//CREATE SHOP BUTTON
 	button = document.createElement("image");
 	button.id = ("button3");
-	button.onclick = function(){buttonTanksMode()};
-	button.innerHTML = "<div class=\"img-with-text\"><img src=ui/shop.png onmouseover=this.src='ui/shop_hover.png' onmouseout=this.src='ui/shop.png' width=\"80px\" height=\"60px\" alt=\"SHOP\"></img><p><b>SHOP</b></p></div>";
+	if(mode!="shop"){
+		button.onclick = function(){ButtonShopMode()};
+		button.innerHTML = "<div class=\"img-with-text\"><img src=ui/shop.png onmouseover=this.src='ui/shop_hover.png' onmouseout=this.src='ui/shop.png' width=\"80px\" height=\"60px\" alt=\"SHOP\"></img><p><b>SHOP</b></p></div>";
+	}else{
+		button.innerHTML = "<div class=\"img-with-text\"><img src=ui/shop_select.png width=\"80px\" height=\"60px\" alt=\"SHOP\"></img><p><b>SHOP</b></p></div>";
+	}
 	hr = document.createElement("hr");
 	hr.innerHTML = "<hr style=\"width: 1px;></hr>";
 	document.getElementById("menu").appendChild(hr);
@@ -138,18 +159,33 @@ function CreateButtons(){
 	hr = document.createElement("hr");
 	hr.innerHTML = "<hr style=\"width: 1px;></hr>";
 	document.getElementById("menu").appendChild(hr);
+	UpdateElements();
 }
-function buttonDefaultMode(){
+function ButtonDefaultMode(){
+	mode = "default";
 	CreateButtons();
 }
-function buttonEditMode(){
+function ButtonEditMode(){
+	mode = "edit";
 	CreateButtons();
 }
-function buttonTanksMode(){
+function ButtonTanksMode(){
+	mode = "tanks";
 	CreateButtons();
 }
-function buttonShopMode(){
+function ButtonShopMode(){
+	mode = "shop";
 	CreateButtons();
+}
+function UpdateElements(){
+	var element;
+	if(mode == "tanks"){
+		element = document.getElementById("aquariums");
+		element.style.visibility = "visible";
+	}else{
+		element = document.getElementById("aquariums");
+		element.style.visibility = "hidden";
+	}
 }
 </script>
 </body>

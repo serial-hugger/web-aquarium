@@ -23,9 +23,11 @@ var yMult = 1;
 //ACTIONS
 mainCanvas.addEventListener("mousedown", function(e) 
 { 
-	movingItemSlot = itemSlotOver;
-	xDebt = 0;
-	yDebt = 0;
+	if(mode == "edit"){
+		movingItemSlot = itemSlotOver;
+		xDebt = 0;
+		yDebt = 0;
+	}
 }); 
 mainCanvas.addEventListener("mouseup", function(e) 
 { 

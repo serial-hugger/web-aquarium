@@ -11,6 +11,10 @@ function repeat(){
 		}
 	},100);
 	setInterval(function(){
+		var selected = document.getElementById("selectedaquarium");
+		var container = document.getElementById("container");
+		selected.width = container.clientWidth;
+		selected.height = container.clientHeight;
 	//SWAYING ANIMATION
 	currentSway += 1;
 	UpdateCursor();
@@ -129,12 +133,13 @@ function repeat(){
 			ctx.globalAlpha = 1;
 		}
 
-		
-		ctx.strokeRect(hoverLeft,hoverTop,hoverWidth,hoverHeight);
+		if(mode == "edit"){
+			ctx.strokeRect(hoverLeft,hoverTop,hoverWidth,hoverHeight);
+		}
 		ctx.globalAlpha = 1;
 		hoverTop = -1000;
 		hoverLeft = -1000;
-		if(itemSlotOver != -1 || overTank){
+		if((itemSlotOver != -1 && mode == "edit") || overTank){
 			cursor = 1;
 		}
 		if(movingItemSlot != -1){
