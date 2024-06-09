@@ -36,9 +36,12 @@ mainCanvas.addEventListener("pointerdown", function(e)
 mainCanvas.addEventListener("pointerup", function(e) 
 { 
 	mouseDown = false;
+	itemSlotOver = -1;
 	movingItemSlot = -1;
 	hoverTop = -1000;
 	hoverLeft = -1000;
+	mouseX = 0;
+	mouseY = 0;
 }); 
 
 mainCanvas.addEventListener("pointermove", function(e) 
