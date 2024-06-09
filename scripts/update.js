@@ -4,6 +4,22 @@ function lerp( a, b, alpha ) {
 var currentSway = 0;
 function repeat(){
 	setInterval(function(){
+		var container = document.getElementById("container");
+		var menu = document.getElementById("menu");
+		var aquariums = document.getElementById("aquariums");
+		var w = window.innerWidth;
+		var h = window.innerHeight;
+		if(w>=h){
+			container.style.width = "60vw";
+			container.style.height = "30vw";
+			aquariums.style.width = "60vw";
+			menu.style.width = "60vw";
+		}else{
+			container.style.width = "100vw";
+			container.style.height = "50vw";
+			aquariums.style.width = "100vw";
+			menu.style.width = "100vw";
+		}
 		if(movingItemSlot == -1){
 			tankDecor[selectedTank].sort(function(a,b){
 				return parseFloat(a.z) - parseFloat(b.z);
