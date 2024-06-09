@@ -13,6 +13,18 @@ body {
   background-position: center;
   background-size: 1200px 1000px,20% 20%;
 }
+.noSelect {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.noSelect:focus {
+    outline: none !important;
+}
 .container{
 	width :60vw;
 	height:30vw;
@@ -52,7 +64,7 @@ img:hover {
 }
 </style>
 <div class = "container" id="container">
-	<canvas id = "selectedaquarium" style = "margin:auto auto auto auto;display: flex;z-index:0"></canvas>
+	<canvas class = "noSelect" id = "selectedaquarium" style = "margin:auto auto auto auto;display: flex;z-index:0"></canvas>
 </div>
 <div class="menubanner" id = "menu"></div>
 <div class="aquariumlist" id = "aquariums"></div>
@@ -61,6 +73,49 @@ img:hover {
 <script src="scripts/tanks.js"></script>
 <script src="scripts/update.js"></script> 
 <script>
+
+// left: 37, up: 38, right: 39, down: 40,
+// spacebar: 32, pageup: 33, pagedown: 34, end: 35, home: 36
+var keys = {37: 1, 38: 1, 39: 1, 40: 1};
+
+function preventDefault(e) {
+  e.preventDefault();
+}
+
+function preventDefaultForScrollKeys(e) {
+  if (keys[e.keyCode]) {
+    preventDefault(e);
+    return false;
+  }
+}
+
+// modern Chrome requires { passive: false } when adding event
+var supportsPassive = false;
+try {
+  window.addEventListener("test", null, Object.defineProperty({}, 'passive', {
+    get: function () { supportsPassive = true; } 
+  }));
+} catch(e) {}
+
+var wheelOpt = supportsPassive ? { passive: false } : false;
+var wheelEvent = 'onwheel' in document.createElement('div') ? 'wheel' : 'mousewheel';
+
+// call this to Disable
+function disableScroll() {
+  window.addEventListener('DOMMouseScroll', preventDefault, false); // older FF
+  window.addEventListener(wheelEvent, preventDefault, wheelOpt); // modern desktop
+  window.addEventListener('touchmove', preventDefault, wheelOpt); // mobile
+  window.addEventListener('keydown', preventDefaultForScrollKeys, false);
+}
+
+// call this to Enable
+function enableScroll() {
+  window.removeEventListener('DOMMouseScroll', preventDefault, false);
+  window.removeEventListener(wheelEvent, preventDefault, wheelOpt); 
+  window.removeEventListener('touchmove', preventDefault, wheelOpt);
+  window.removeEventListener('keydown', preventDefaultForScrollKeys, false);
+}
+
 var mode = "default";
 
 function GetItemAtPos(decorArr,canvas,relSize,xOffset,yOffset,topSand){
@@ -167,6 +222,8 @@ function ButtonDefaultMode(){
 }
 function ButtonEditMode(){
 	mode = "edit";
+	disableScroll();
+	window.scrollTo(0,0)
 	CreateButtons();
 }
 function ButtonTanksMode(){
@@ -178,6 +235,9 @@ function ButtonShopMode(){
 	CreateButtons();
 }
 function UpdateElements(){
+	if(mode!="edit"){
+		enableScroll();
+	}
 	var element;
 	if(mode == "tanks"){
 		element = document.getElementById("aquariums");
@@ -188,5 +248,15 @@ function UpdateElements(){
 	}
 }
 </script>
+<p>afgsfdgdfsgsdfgs</p>
+<p>afgsfdgdfsgsdfgs</p>
+<p>afgsfdgdfsgsdfgs</p>
+<p>afgsfdgdfsgsdfgs</p>
+<p>afgsfdgdfsgsdfgs</p>
+<p>afgsfdgdfsgsdfgs</p>
+<p>afgsfdgdfsgsdfgs</p>
+<p>afgsfdgdfsgsdfgs</p>
+<p>afgsfdgdfsgsdfgs</p>
+<p>afgsfdgdfsgsdfgs</p>
 </body>
 </html>
