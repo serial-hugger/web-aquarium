@@ -43,6 +43,8 @@ function repeat(){
 		var yOffset = ((c.top + canvas.height/2) - (height/2))/5;
 		
 		var scroller = document.getElementById("aquariums");
+
+		if(Math.abs(xOffset)<125){
 		
 		var relativeSizing = (canvas.width / 1024);
 		
@@ -138,6 +140,7 @@ function repeat(){
 		if(movingItemSlot != -1){
 			cursor = 2;
 		}
+	}
 	}
 	if(mousePrevY != mouseY || mousePrevX != mouseX){
 		if(movingItemSlot >= 0){

@@ -15,20 +15,42 @@ body {
 }
 .aquariumlist {
   margin: auto;
-  width: 1024px;
+  width: 1025px;
   height:123px;
   display: flex; 
   overflow-x: scroll;
   overflow-y: none;
   border:1px solid #5e5e5e;
-  background: #757575;
+  background: #000000;
+}
+.menubanner {
+  margin: auto;
+  width: 1027px;
+  height:90px;
+  display: flex; 
+  overflow-x: none;
+  overflow-y: none;
+  background-image: url('sandbg.png');
+  background-size: 100px 100px,20% 20%;
+}
+.img-with-text {
+    text-align: center;
+    width: 60;
+	font-size: 10px;
+}
+
+.img-with-text img {
+    display: block;
+}
+img:hover {
+    cursor: pointer;
 }
 </style>
 <div class = "container" id="container">
-<canvas id = "selectedaquarium" width = 1023 height = 511.5 style = "border:2px solid #5e5e5e;margin:50px auto auto auto;display: flex;z-index:0"></canvas>
-<div class="aquariumlist" id = "aquariums">
+	<canvas id = "selectedaquarium" width = 1023 height = 511.5 style = "border:2px solid #5e5e5e;margin:auto auto auto auto;display: flex;z-index:0"></canvas>
 </div>
-</div>
+<div class="menubanner" id = "menu"></div>
+<div class="aquariumlist" id = "aquariums"></div>
 <script src="scripts/items.js"></script> 
 <script src="scripts/interaction.js"></script> 
 <script src="scripts/tanks.js"></script>
@@ -70,6 +92,64 @@ function getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+function CreateButtons(){
+	document.getElementById("menu").innerHTML = '';
+	var button;
+	var hr;
+	hr = document.createElement("hr");
+	hr.innerHTML = "<hr style=\"width: 1px;></hr>";
+	document.getElementById("menu").appendChild(hr);
+	//CREATE DEFAULT BUTTON
+	button = document.createElement("image");
+	button.id = ("button1");
+	button.onclick = function(){buttonDefaultMode()};
+	button.innerHTML = "<div class=\"img-with-text\"><img src=ui/default.png onmouseover=this.src='ui/default_hover.png' onmouseout=this.src='ui/default.png' width=\"80px\" height=\"60px\" alt=\"INTERACT\"></img><p><b>INTERACT</b></p></div>";
+	document.getElementById("menu").appendChild(button);
+	//CREATE EDIT BUTTON
+	button = document.createElement("image");
+	button.id = ("button2");
+	button.onclick = function(){buttonEditMode()};
+	button.innerHTML = "<div class=\"img-with-text\"><img src=ui/edit.png onmouseover=this.src='ui/edit_hover.png' onmouseout=this.src='ui/edit.png' width=\"80px\" height=\"60px\" alt=\"EDIT\"></img><p><b>EDIT</b></p></div>";
+	hr = document.createElement("hr");
+	hr.innerHTML = "<hr style=\"width: 1px;></hr>";
+	document.getElementById("menu").appendChild(hr);
+	document.getElementById("menu").appendChild(button);
+	//CREATE TANK BUTTON
+	button = document.createElement("image");
+	button.id = ("button3");
+	button.onclick = function(){buttonTanksMode()};
+	button.innerHTML = "<div class=\"img-with-text\"><img src=ui/tanks.png onmouseover=this.src='ui/tanks_hover.png' onmouseout=this.src='ui/tanks.png' width=\"80px\" height=\"60px\" alt=\"TANKS\"></img><p><b>TANKS</b></p></div>";
+	hr = document.createElement("hr");
+	hr.innerHTML = "<hr style=\"width: 1px;></hr>";
+	document.getElementById("menu").appendChild(hr);
+	document.getElementById("menu").appendChild(button);
+	//CREATE SHOP BUTTON
+	button = document.createElement("image");
+	button.id = ("button3");
+	button.onclick = function(){buttonTanksMode()};
+	button.innerHTML = "<div class=\"img-with-text\"><img src=ui/shop.png onmouseover=this.src='ui/shop_hover.png' onmouseout=this.src='ui/shop.png' width=\"80px\" height=\"60px\" alt=\"SHOP\"></img><p><b>SHOP</b></p></div>";
+	hr = document.createElement("hr");
+	hr.innerHTML = "<hr style=\"width: 1px;></hr>";
+	document.getElementById("menu").appendChild(hr);
+	document.getElementById("menu").appendChild(button);
+
+	//LAST HR
+	hr = document.createElement("hr");
+	hr.innerHTML = "<hr style=\"width: 1px;></hr>";
+	document.getElementById("menu").appendChild(hr);
+}
+function buttonDefaultMode(){
+	CreateButtons();
+}
+function buttonEditMode(){
+	CreateButtons();
+}
+function buttonTanksMode(){
+	CreateButtons();
+}
+function buttonShopMode(){
+	CreateButtons();
 }
 </script>
 </body>

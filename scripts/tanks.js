@@ -67,4 +67,5 @@ window.onload = function() {
 	DecorateAll();
 	preloadTankImages();
 	repeat();
+	CreateButtons();
 }
