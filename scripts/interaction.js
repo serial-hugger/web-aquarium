@@ -23,6 +23,9 @@ var yMult = 1;
 //ACTIONS
 mainCanvas.addEventListener("pointerdown", function(e) 
 { 
+	mouseX = getMousePos(mainCanvas,e).x;
+	mouseY = getMousePos(mainCanvas,e).y;
+	itemSlotOver = GetItemAtPos(decorArr,canvas,relSize,xOffset,yOffset,topSand);
 	if(mode == "edit"){
 		movingItemSlot = itemSlotOver;
 		xDebt = 0;
