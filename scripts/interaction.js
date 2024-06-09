@@ -18,12 +18,14 @@ var hoverHeight;
 
 var movingItemSlot = -1;
 
+var mouseDown = false;
+
 var yMult = 1;
 
 //ACTIONS
 mainCanvas.addEventListener("pointerdown", function(e) 
 { 
-	itemSlotOver = GetItemAtPos(decorArr,canvas,relSize,xOffset,yOffset,topSand);
+	mouseDown = true;
 	if(mode == "edit"){
 		movingItemSlot = itemSlotOver;
 		xDebt = 0;
@@ -33,16 +35,23 @@ mainCanvas.addEventListener("pointerdown", function(e)
 }); 
 mainCanvas.addEventListener("pointerup", function(e) 
 { 
+	mouseDown = false;
 	movingItemSlot = -1;
+	hoverTop = -1000;
+	hoverLeft = -1000;
 }); 
 
 mainCanvas.addEventListener("pointermove", function(e) 
 { 
+	if(mode == "edit" && mouseDown && movingItemSlot == -1){
+		movingItemSlot = itemSlotOver;
+	}
     mouseX = getMousePos(mainCanvas,e).x;
 	mouseY = getMousePos(mainCanvas,e).y;
 }); 
 mainCanvas.addEventListener("pointerout", function(e) 
 { 
+	mouseDown = false;
 	hoverTop = -1000;
 	hoverLeft = -1000;
 	movingItemSlot = -1;
