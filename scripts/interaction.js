@@ -21,46 +21,31 @@ var movingItemSlot = -1;
 var yMult = 1;
 
 //ACTIONS
-mainCanvas.addEventListener("mousedown", function(e) 
+mainCanvas.addEventListener("pointerdown", function(e) 
 { 
-	if(mode == "edit"){
-		movingItemSlot = itemSlotOver;
-		xDebt = 0;
-		yDebt = 0;
-	}
-}); 
-mainCanvas.addEventListener("mouseup", function(e) 
-{ 
-	movingItemSlot = -1;
-}); 
-
-mainCanvas.addEventListener("mousemove", function(e) 
-{ 
-    mouseX = getMousePos(mainCanvas,e).x;
-	mouseY = getMousePos(mainCanvas,e).y;
-}); 
-mainCanvas.addEventListener("mouseout", function(e) 
-{ 
-	hoverTop = -1000;
-	hoverLeft = -1000;
-	movingItemSlot = -1;
-}); 
-
-mainCanvas.addEventListener("ontouchstart", function(e){
 	if(mode == "edit"){
 		movingItemSlot = itemSlotOver;
 		xDebt = 0;
 		yDebt = 0;
 	}
 	return false;
-});
-mainCanvas.addEventListener("ontouchmove", function(e) {
+}); 
+mainCanvas.addEventListener("pointerup", function(e) 
+{ 
+	movingItemSlot = -1;
+}); 
+
+mainCanvas.addEventListener("pointermove", function(e) 
+{ 
     mouseX = getMousePos(mainCanvas,e).x;
 	mouseY = getMousePos(mainCanvas,e).y;
-});
-mainCanvas.addEventListener("ontouchend", function(e) {
+}); 
+mainCanvas.addEventListener("pointerout", function(e) 
+{ 
+	hoverTop = -1000;
+	hoverLeft = -1000;
 	movingItemSlot = -1;
-});
+}); 
 
 function getMousePos(canvas, evt) {
     var rect = mainCanvas.getBoundingClientRect();
