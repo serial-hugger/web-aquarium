@@ -46,6 +46,22 @@ mainCanvas.addEventListener("mouseout", function(e)
 	movingItemSlot = -1;
 }); 
 
+canvas.addEventListener("ontouchstart", function(e){
+	if(mode == "edit"){
+		movingItemSlot = itemSlotOver;
+		xDebt = 0;
+		yDebt = 0;
+	}
+	return false;
+});
+canvas.addEventListener("ontouchmove", function(e) {
+    mouseX = getMousePos(mainCanvas,e).x;
+	mouseY = getMousePos(mainCanvas,e).y;
+});
+canvas.addEventListener("ontouchend", function(e) {
+	movingItemSlot = -1;
+});
+
 function getMousePos(canvas, evt) {
     var rect = mainCanvas.getBoundingClientRect();
     return {
