@@ -13,7 +13,7 @@ function repeat(){
 			container.style.width = "60vw";
 			container.style.height = "30vw";
 			aquariums.style.width = "60vw";
-			menu.style.width = "60vw";
+			menu.style.width = "100vw";
 		}else{
 			container.style.width = "100vw";
 			container.style.height = "50vw";
@@ -27,10 +27,10 @@ function repeat(){
 		}
 	},100);
 	setInterval(function(){
-		var selected = document.getElementById("selectedaquarium");
-		var container = document.getElementById("container");
-		selected.width = container.clientWidth;
-		selected.height = container.clientHeight;
+	var selected = document.getElementById("selectedaquarium");
+	var container = document.getElementById("container");
+	selected.width = container.clientWidth;
+	selected.height = container.clientHeight;
 	//SWAYING ANIMATION
 	currentSway += 1;
 	UpdateCursor();
@@ -39,6 +39,9 @@ function repeat(){
 	var width = document.body.clientWidth;
 
 	var height = document.body.clientHeight;
+
+	var canvasesToDraw = [];
+
 	for(i = 0; i < aquariums.length; i++){
 		if(i != selectedTank){
 			var canvas = aquariums[i];
