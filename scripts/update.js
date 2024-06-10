@@ -7,6 +7,9 @@ function repeat(){
 		var container = document.getElementById("container");
 		var menu = document.getElementById("menu");
 		var aquariums = document.getElementById("aquariums");
+		var shoptoolbar1 = document.getElementById("shoptoolbar1");
+		var shoptoolbar2 = document.getElementById("shoptoolbar2");
+		var shop = document.getElementById("shop-container");
 		var w = window.innerWidth;
 		var h = window.innerHeight;
 		if(w>=h){
@@ -14,11 +17,19 @@ function repeat(){
 			container.style.height = "30vw";
 			aquariums.style.width = "60vw";
 			menu.style.width = "100vw";
+			shoptoolbar1.style.width = "63vw";
+			shoptoolbar2.style.width = "63vw";
+			document.body.style.backgroundSize = "65vw 65vw, 20vw 20vw";
+			shop.style.width = "10vw";
 		}else{
 			container.style.width = "100vw";
 			container.style.height = "50vw";
 			aquariums.style.width = "100vw";
 			menu.style.width = "100vw";
+			shoptoolbar1.style.width = "100vw";
+			shoptoolbar2.style.width = "100vw";
+			document.body.style.backgroundSize = "100vw 100vw, 20vw 20vw";
+			shop.style.width = "100vw";
 		}
 		if(movingItemSlot == -1){
 			tankDecor[selectedTank].sort(function(a,b){

@@ -71,6 +71,42 @@ body {
   background-image: url('paperlight.png');
   background-size: 20vw 20vw;
 }
+.shoptoolbar {
+  margin: auto;
+  padding : 0;
+  width: 63vw;
+  height:25px;
+  display: flex; 
+  overflow-x: none;
+  overflow-y: none;
+  background: #ffffff;
+  border-style: ridge ridge ridge ridge;
+}
+.shoptoolbar p {
+	margin: 3px;
+	padding:0;
+	font-size: 100%;
+	height:100%;
+	text-align: center;
+	vertical-align:text-bottom;
+}
+.shoptoolbar a {
+	margin: 3px;
+	padding:0;
+	font-size: 100%;
+	height:100%;
+	text-align: center;
+	vertical-align:text-bottom;
+}
+.shoptoolbar input{
+	height: 20px;
+	width:100px;
+	margin: 3px;;
+}
+.shoptoolbar button{
+	height: 20px;
+	margin: 3px;
+}
 .img-with-text {
 	margin:0;
 	padding:0;
@@ -96,7 +132,7 @@ body {
 	font-size: 1vw;
 	height:2vw;
 	text-align: center;
-	line-height: 1.1em;
+	line-height: 1.2em;
 	vertical-align: text-top;
 }
 .item-img-with-text img {
@@ -107,10 +143,10 @@ body {
 	object-fit:contain;
 }
 .item-img-with-text button {
-	width: 6vw;
+	width: 8vw;
      height: 2vw;
 	position: absolute; 
-	left: 2vw;
+	left: 1vw;
 	bottom: 1vw;
 	font-size: 1vw;
 	text-align: center;
@@ -120,6 +156,30 @@ img:hover {
 }
 </style>
 <div class="menubanner" id = "menu"></div>
+<div class="shoptoolbar" id = "shoptoolbar1">
+	<hr></hr>
+	<input type="search" id="lname" name="lname" height = "5px">
+	<button>Find</button>
+	<hr></hr>
+	<button><</button>
+	<p>Pg.1</p>
+	<button>></button>
+	<hr></hr>
+	<p>Bal: $0</p>
+	<hr></hr>
+	<a href="javascript:ShowOld(2367, 146986, 2);">Cart (1)</a>
+	<hr></hr>
+</div>
+<div class="shoptoolbar" id = "shoptoolbar2" style = "background: #dadada">
+	<hr></hr>
+	<p>Categories:</p>
+	<a href="javascript:ShowOld(2367, 146986, 2);">New</a>
+	<a href="javascript:ShowOld(2367, 146986, 2);">Fish</a>
+	<a href="javascript:ShowOld(2367, 146986, 2);">Decor</a>
+	<a href="javascript:ShowOld(2367, 146986, 2);">Backgrounds</a>
+	<a href="javascript:ShowOld(2367, 146986, 2);">Floors</a>
+	<hr></hr>
+</div>
 <div class = "container noSelect" id="container">
 	<canvas class = "noSelect" id = "selectedaquarium" style = "margin:auto auto auto auto;display: flex;z-index:0"></canvas>
 </div>
@@ -308,11 +368,19 @@ function UpdateElements(){
 		element.style.display = "grid";
 		element = document.getElementById("container");
 		element.style.display = "none";
+		element = document.getElementById("shoptoolbar1");
+		element.style.display = "flex";
+		element = document.getElementById("shoptoolbar2");
+		element.style.display = "flex";
 	}else{
 		element = document.getElementById("shop-container");
 		element.style.display = "none";
 		element = document.getElementById("container");
 		element.style.display = "block";
+		element = document.getElementById("shoptoolbar1");
+		element.style.display = "none";
+		element = document.getElementById("shoptoolbar2");
+		element.style.display = "none";
 	}
 }
 function CreateShopItems(startIndex){
@@ -322,7 +390,7 @@ function CreateShopItems(startIndex){
 	for(var i = 0; i< tankItems.length;i++){
 		if(tankItems[i].price!=null){
 			var item = document.createElement("div");
-			item.innerHTML = "<div class=\"item-img-with-text\"><img src="+tankItems[i].type + "/" + tankItems[i].image + " alt=\"SHOP\"></img><p><b>"+tankItems[i].name+"<br> $"+tankItems[i].price+"</b></p> <button>Add to cart</button> </div>";
+			item.innerHTML = "<div class=\"item-img-with-text\"><img src="+tankItems[i].type + "/" + tankItems[i].image + " alt=\"SHOP\"></img><p><b>"+tankItems[i].name+"</b><br> $"+tankItems[i].price+"</b></p> <button>Add to cart</button> </div>";
 			shop.appendChild(item);
 		}
 	}
