@@ -7,8 +7,6 @@ function repeat(){
 		var container = document.getElementById("container");
 		var menu = document.getElementById("menu");
 		var aquariums = document.getElementById("aquariums");
-		var shoptoolbar1 = document.getElementById("shoptoolbar1");
-		var shoptoolbar2 = document.getElementById("shoptoolbar2");
 		var shop = document.getElementById("shop-container");
 		var w = window.innerWidth;
 		var h = window.innerHeight;
@@ -17,8 +15,6 @@ function repeat(){
 			container.style.height = "30vw";
 			aquariums.style.width = "60vw";
 			menu.style.width = "100vw";
-			shoptoolbar1.style.width = "63vw";
-			shoptoolbar2.style.width = "63vw";
 			document.body.style.backgroundSize = "65vw 65vw, 20vw 20vw";
 			shop.style.width = "10vw";
 		}else{
@@ -26,8 +22,6 @@ function repeat(){
 			container.style.height = "50vw";
 			aquariums.style.width = "100vw";
 			menu.style.width = "100vw";
-			shoptoolbar1.style.width = "100vw";
-			shoptoolbar2.style.width = "100vw";
 			document.body.style.backgroundSize = "100vw 100vw, 20vw 20vw";
 			shop.style.width = "100vw";
 		}
@@ -36,14 +30,14 @@ function repeat(){
 				return parseFloat(a.z) - parseFloat(b.z);
 			});
 		}
-	},100);
+	},gameSpeed * 100);
 	setInterval(function(){
 	var selected = document.getElementById("selectedaquarium");
 	var container = document.getElementById("container");
 	selected.width = container.clientWidth;
 	selected.height = container.clientHeight;
 	//SWAYING ANIMATION
-	currentSway += 1;
+	currentSway += 1*gameSpeed;
 	UpdateCursor();
 	cursor = 0;
 	//Window size details
@@ -202,7 +196,7 @@ function repeat(){
 		mousePrevY = mouseY;
 		mousePrevX = mouseX;
 	}
-	},50);
+	},gameSpeed * 50);
 }
 function DrawTankItems(tank,decorArr,canvas,relSize,xOffset,yOffset){
 	var canvas = canvas;
@@ -218,9 +212,9 @@ function DrawTankItems(tank,decorArr,canvas,relSize,xOffset,yOffset){
 				decorArr[i].moveY = getRandomInt(-50,50);
 				decorArr[i].moveZ = getRandomInt(-1,1);
 			}
-			decorArr[i].x += decorArr[i].moveX*0.01;
-			decorArr[i].y += decorArr[i].moveY*0.01;
-			decorArr[i].z += decorArr[i].moveZ*0.01;
+			decorArr[i].x += decorArr[i].moveX*0.01*gameSpeed;
+			decorArr[i].y += decorArr[i].moveY*0.01*gameSpeed;
+			decorArr[i].z += decorArr[i].moveZ*0.01*gameSpeed;
 			if(decorArr[i].x<=-300){
 				decorArr[i].moveX = getRandomInt(50,100);
 			}

@@ -2,13 +2,13 @@
 var tankItems = [
 {"image":"sb0001.png","type":"sandback","price":null},
 {"image":"sf0001.png","type":"sandfront","price":null},
-{"image":"d0001.png","type":"decor","name":"Sea Weed","x":0,"y":70,"width":62,"height":169,"sway":true,"price":3},
-{"image":"d0002.png","type":"decor","name":"Sea Weed","x":0,"y":50,"width":81,"height":117,"sway":true,"price":3},
-{"image":"d0003.png","type":"decor","name":"Sea Weed","x":0,"y":50,"width":98,"height":110,"sway":true,"price":3},
+{"image":"d0001.png","type":"decor","name":"Seaweed 1","x":0,"y":70,"width":62,"height":169,"sway":true,"price":3},
+{"image":"d0002.png","type":"decor","name":"Seaweed 2","x":0,"y":50,"width":81,"height":117,"sway":true,"price":3},
+{"image":"d0003.png","type":"decor","name":"Seaweed 3","x":0,"y":50,"width":98,"height":110,"sway":true,"price":3},
 {"image":"d0004.png","type":"decor","name":"Chest","x":0,"y":40,"width":148,"height":127,"price":10},
 {"image":"b0001.png","type":"background","name":"Background 1","width":700,"height":350,"price":30},
-{"image":"d0005.png","type":"decor","name":"Rock","x":0,"y":60,"width":140,"height":141,"price":5},
-{"image":"d0006.png","type":"decor","name":"Rock","x":0,"y":40,"width":84,"height":93,"price":3},
+{"image":"d0005.png","type":"decor","name":"Medium Rock","x":0,"y":60,"width":140,"height":141,"price":5},
+{"image":"d0006.png","type":"decor","name":"Small Rock","x":0,"y":40,"width":84,"height":93,"price":3},
 {"image":"f0001.png","type":"fish","name":"Goldfish","x":0,"y":0,"width":84,"height":93,"price":25},
 {"image":"f0002.png","type":"fish","name":"Clownfish","x":0,"y":0,"width":153,"height":128,"price":30},
 {"image":"f0003.png","type":"fish","name":"Betta Fish","x":0,"y":0,"width":126,"height":119,"price":25},
@@ -17,6 +17,7 @@ var tankItems = [
 {"image":"f0006.png","type":"fish","name":"Pufferfish","x":0,"y":0,"width":181,"height":121,"price":80}
 ];
 var tankImgs = [];
+var storage = [];
 function preloadTankImages() {
 	tankImgs[0] = new Image();
 	tankImgs[0].src = "shine1.png";
@@ -67,5 +68,17 @@ function GetRandomItem(type){
 				return index;
 			}
 		}
+	}
+}
+function NewItem(id){
+	var type = tankItems[id].type;
+	if(type = "decor"){
+		return {"z":z,"id":id,"x":getRandomInt(-300,300),"y":0,"size":(getRandomInt(8,12)/10),"flip":(getRandomInt(0,1)),"image":tankItems[id].image};
+	}
+	if(type = "background"){
+		return {"id":id,"image":tankItems[id].image};
+	}
+	if(type == "fish"){
+		return {"z":getRandomInt(0,50),"id":id,"x":getRandomInt(-300,300),"y":getRandomInt(50,250),"size":0.5,"image":tankItems[id].image,"moveX":getRandomInt(-100,100),"moveY":getRandomInt(-50,50),"moveZ":getRandomInt(-10,10),"rotation":360};
 	}
 }
