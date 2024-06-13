@@ -2,6 +2,17 @@ function lerp( a, b, alpha ) {
 	return a + alpha * ( b - a );
 }
 var currentSway = 0;
+var prevZ = 0;
+
+var waterTypes = [
+	{"name":"default","color":"386a6e","darkness":0.07},
+	{"name":"dirty","color":"3d6e38","darkness":0.09}
+]
+var waterType = 0;
+
+var darkness = waterTypes[waterType].darkness;
+var color = waterTypes[waterType].color;
+
 function repeat(){
 	setInterval(function(){
 		var container = document.getElementById("container");
@@ -116,12 +127,22 @@ function repeat(){
 		var sandFW = relativeSizing*tankImgs[3].width;
 		var sandFH = relativeSizing*tankImgs[3].height;
 		
+		prevZ = 0;
+
 		ctx.drawImage(tankImgs[GetImageSlot("sb0001.png")],(canvas.width/2-sandW/2)-xOffset*relativeSizing,(canvas.height/2-sandH/2.5)-(((yOffset+500)/5)/yMult)*(relativeSizing),sandW,sandH);
 		DrawTankItems(i,tankDecor[i],canvas,relativeSizing,xOffset,yOffset);
 		ctx.drawImage(tankImgs[GetImageSlot("sf0001.png")],0,-5*relativeSizing,canvas.width ,sandFH);
 		ctx.globalAlpha = 0.1;
-		ctx.fillStyle = "#367c8f";
+		ctx.fillStyle = "#"+color;
 		ctx.fillRect(0,50*relativeSizing,canvas.width,canvas.height);
+
+		while(prevZ<60){
+			ctx.globalAlpha = darkness;
+			ctx.fillStyle = "#"+color;
+			ctx.fillRect(0,(50)*relativeSizing,canvas.width,canvas.height);
+			ctx.globalAlpha = 1;
+			prevZ +=5;
+		}
 		
 		var maxSway = 50;
 		var actualSway = ((currentSway)%(maxSway*2));
@@ -131,18 +152,18 @@ function repeat(){
 		actualSway *= 1;
 
 		//top water
-		ctx.fillStyle = "#38b6d9";
-		ctx.globalAlpha = 0.3;
+		ctx.fillStyle = "#"+color;
+		ctx.globalAlpha = darkness*12;
 		var path=new Path2D();
 		path.moveTo((canvas.width/2)-xOffset*10,-200);
-		path.lineTo(0,(50-actualSway*0.06)*relativeSizing);
-		path.lineTo(canvas.width,(50+actualSway*0.06)*relativeSizing);
+		path.lineTo(0-(75*relativeSizing),(50-actualSway*0.06)*relativeSizing);
+		path.lineTo(canvas.width+(75*relativeSizing),(50+actualSway*0.06)*relativeSizing);
 		ctx.fill(path);
 		ctx.globalAlpha = 1;
 
 		//wayer at top of tank
 		ctx.lineWidth = 3*relativeSizing;
-		ctx.strokeStyle = "#678c91";
+		ctx.strokeStyle = "#"+LightenDarkenColor(color,25);
 		ctx.beginPath();
 		ctx.moveTo(0, (50-actualSway*0.06)*relativeSizing);
 		ctx.lineTo(canvas.width,(50+actualSway*0.06)*relativeSizing);
@@ -204,6 +225,7 @@ function DrawTankItems(tank,decorArr,canvas,relSize,xOffset,yOffset){
 	if(tank == selectedTank){
 		itemSlotOver = GetItemAtPos(decorArr,canvas,relSize,xOffset,yOffset);
 	}
+
 	for(var i=0;i<decorArr.length;i++){
 		//UPDATE
 		if(tankItems[decorArr[i].id].type =="fish"){
@@ -246,6 +268,15 @@ function DrawTankItems(tank,decorArr,canvas,relSize,xOffset,yOffset){
 		var rot = 360;
 		var swayXOffset = 0;
 		var fishYOffset = 0;
+		if(i!=movingItemSlot){
+			while(z>prevZ+5){
+				ctx.globalAlpha = darkness;
+				ctx.fillStyle = "#"+color;
+				ctx.fillRect(0,(50)*relSize,canvas.width,canvas.height);
+				ctx.globalAlpha = 1;
+				prevZ +=5;
+			}
+		}
 
 		if(type == "decor"){
 			//GET ACTUAL SWAY
@@ -316,6 +347,8 @@ function DrawTankItems(tank,decorArr,canvas,relSize,xOffset,yOffset){
 		ctx.moveTo(0, bottomSand);
 		ctx.lineTo(10000,bottomSand);
 		//ctx.stroke();
+
+		//transparency if editing item
 		if(movingItemSlot == i && tank == selectedTank){
 			ctx.globalAlpha = 0.6;
 		}else{
@@ -327,7 +360,6 @@ function DrawTankItems(tank,decorArr,canvas,relSize,xOffset,yOffset){
 
 		var xDraw = ((canvas.width/2)  +                      ((x*1)*(1+(z*0.007)))*relSize     -        ((xOffset/5)*((50-z)*0.1))*relSize);//*(5-z/10)*relSize;
 		var yDraw = canvas.height -  ((1 - relSize)*5)  - (150*relSize)  - (y * relSize) -    ((z*0.06)*relSize)                -      (((((yOffset+500))/5)*((z-25)*0.01)*relSize)*-1)  + (z*1.8)*relSize;
-
 		drawImageRot(ctx,tankImgs[imgSlot],xDraw+swayXOffset+(tankItems[id].x*percentOfSize*relSize),yDraw+fishYOffset-(tankItems[id].y*percentOfSize*relSize),iWidth,iHeight,rot,flip,false);
 		ctx.fillStyle = "red";
 		ctx.translate(0, 0);
@@ -372,3 +404,7 @@ function drawImageRot(ctx,img,x,y,width,height,deg,flipX,flipY){
     // Restore canvas state as saved from above
     ctx.restore();
 }
+function LightenDarkenColor(col, amt) {
+	col = parseInt(col, 16);
+	return (((col & 0x0000FF) + amt) | ((((col >> 8) & 0x00FF) + amt) << 8) | (((col >> 16) + amt) << 16)).toString(16);
+  }
