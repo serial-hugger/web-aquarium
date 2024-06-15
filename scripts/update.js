@@ -5,8 +5,10 @@ var currentSway = 0;
 var prevZ = 0;
 
 var waterTypes = [
-	{"name":"default","color":"386a6e","darkness":0.07},
-	{"name":"dirty","color":"3d6e38","darkness":0.09}
+	{"name":"default","color":"417b80","darkness":0.03},
+	{"name":"dirty1","color":"3d6e38","darkness":0.05},
+	{"name":"dirty2","color":"3d6e38","darkness":0.15},
+	{"name":"dirty3","color":"3d6e38","darkness":0.25}
 ]
 var waterType = 0;
 
@@ -134,12 +136,12 @@ function repeat(){
 		ctx.drawImage(tankImgs[GetImageSlot("sf0001.png")],0,-5*relativeSizing,canvas.width ,sandFH);
 		ctx.globalAlpha = 0.1;
 		ctx.fillStyle = "#"+color;
-		ctx.fillRect(0,50*relativeSizing,canvas.width,canvas.height);
+		ctx.fillRect(0,47*relativeSizing,canvas.width,canvas.height);
 
 		while(prevZ<60){
 			ctx.globalAlpha = darkness;
 			ctx.fillStyle = "#"+color;
-			ctx.fillRect(0,(50)*relativeSizing,canvas.width,canvas.height);
+			ctx.fillRect(0,(47)*relativeSizing,canvas.width,canvas.height);
 			ctx.globalAlpha = 1;
 			prevZ +=5;
 		}
@@ -153,13 +155,13 @@ function repeat(){
 
 		//top water
 		ctx.fillStyle = "#"+color;
-		ctx.globalAlpha = darkness*12;
+		ctx.globalAlpha = darkness*9;
 		var path=new Path2D();
 		path.moveTo((canvas.width/2)-xOffset*10,-200);
 		path.lineTo(0-(75*relativeSizing),(50-actualSway*0.06)*relativeSizing);
 		path.lineTo(canvas.width+(75*relativeSizing),(50+actualSway*0.06)*relativeSizing);
 		ctx.fill(path);
-		ctx.globalAlpha = 1;
+		ctx.globalAlpha = darkness;
 
 		//wayer at top of tank
 		ctx.lineWidth = 3*relativeSizing;
@@ -168,6 +170,7 @@ function repeat(){
 		ctx.moveTo(0, (50-actualSway*0.06)*relativeSizing);
 		ctx.lineTo(canvas.width,(50+actualSway*0.06)*relativeSizing);
 		ctx.stroke();
+		ctx.globalAlpha = 1;
 
 		ctx.drawImage(tankImgs[GetImageSlot("shine1.png")],0,0,canvas.width ,canvas.height);
 		ctx.strokeStyle = "#25393b";
@@ -272,7 +275,7 @@ function DrawTankItems(tank,decorArr,canvas,relSize,xOffset,yOffset){
 			while(z>prevZ+5){
 				ctx.globalAlpha = darkness;
 				ctx.fillStyle = "#"+color;
-				ctx.fillRect(0,(50)*relSize,canvas.width,canvas.height);
+				ctx.fillRect(0,(47)*relSize,canvas.width,canvas.height);
 				ctx.globalAlpha = 1;
 				prevZ +=5;
 			}
