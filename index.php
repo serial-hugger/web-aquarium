@@ -1,3 +1,11 @@
+<?php
+session_start();
+	include("connection.php");
+	include("functions.php");
+	$user_data = check_login($con);
+	$_SESSION;
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -490,8 +498,6 @@
 	<div id = "shop-checkout-purchase" style="margin:16px;display: flex; flex-direction: row; align-items: center; justify-content: center;">
 		<button style="text-align:center ;margin:auto;width:200px;height:50px;font-size: 10">Purchase</button>
 	</div>
-	<?php
-		echo "My first PHP script!";
-	?>
+		<a href="logout.php">Logout</a>
 </body>
 </html>
