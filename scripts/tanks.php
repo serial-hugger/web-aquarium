@@ -1,15 +1,27 @@
+<script>
 function Test(say){
 	window.alert(say);
 }
 
+
 //TANK CONTENTS
-var tankDecor = [,];
+var tankContent = [,];
+
+var myTankIds = [];
 
 
 var aquariums = [];
 var selectedTank = 0;
-for(i = 0; i < 10; i++){
-	CreateTank(i);
+
+function CreateTankSave(tank){
+	var string = "";
+	//for(var c = 0;c < tankContent[tank].length;c++){
+	//	string += JSON.stringify(tankContent[tank][c]);
+	//	if(c<tankContent[tank][c].length){
+	//		string += ";";
+	//	}
+	//}
+	return JSON.stringify(tankContent[tank]);
 }
 function CreateTank(tank){
 	var canvas = document.createElement("canvas");
@@ -34,23 +46,18 @@ function CreateTank(tank){
 	{ 
 		overTank = false;
 	});
+	DecorateTank(tank);
 }
 function DecorateTank(tank){
-	tankDecor[tank] = [];
+	tankContent[tank] = [];
 	for(z=0;z<50;z+=getRandomInt(2,3)){
 		var id = GetRandomItem("decor");
-		tankDecor[tank].push({"z":z,"id":id,"x":getRandomInt(-300,300),"y":0,"size":(getRandomInt(8,12)/10),"flip":(getRandomInt(0,1)),"image":tankItems[id].image});
+		tankContent[tank].push({"z":z,"id":id,"x":getRandomInt(-300,300),"y":0,"size":(getRandomInt(8,12)/10),"flip":(getRandomInt(0,1)),"image":tankItems[id].image});
 	}
 	for(f=0;f<25;f+=getRandomInt(1,3)){
 		var id = GetRandomItem("fish");
-		tankDecor[tank].push({"z":getRandomInt(0,50),"id":id,"x":getRandomInt(-300,300),"y":getRandomInt(50,250),"size":0.5,"image":tankItems[id].image,"moveX":getRandomInt(-100,100),"moveY":getRandomInt(-50,50),"moveZ":getRandomInt(-10,10),"rotation":360});
+		tankContent[tank].push({"z":getRandomInt(0,50),"id":id,"x":getRandomInt(-300,300),"y":getRandomInt(50,250),"size":0.5,"image":tankItems[id].image,"moveX":getRandomInt(-100,100),"moveY":getRandomInt(-50,50),"moveZ":getRandomInt(-10,10),"rotation":360});
 	}
-}
-function DecorateAll(){
-	for(i = 0; i<aquariums.length;i++){
-		DecorateTank(i);
-	}
-	//window.alert(tankDecor);
 }
 function UpdateCursor(){
 	if(cursor == 0){
@@ -64,8 +71,11 @@ function UpdateCursor(){
 	}
 }
 window.onload = function() {
-	DecorateAll();
+	for(i = 0; i < 10; i++){
+		CreateTank(i);
+	}
 	preloadTankImages();
 	repeat();
 	CreateButtons();
 }
+</script>

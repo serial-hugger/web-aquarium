@@ -1,3 +1,4 @@
+<script>
 var overTank = false;
 var cursor = 0;
 var debug = document.getElementById("debug");
@@ -78,3 +79,4 @@ function UpdateCursor(){
 		document.body.style.cursor = "move";
 	}
 }
+</script>

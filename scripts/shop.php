@@ -1,3 +1,4 @@
+<script>
 var shoppingCart = [];
 var money = 1000;
 
@@ -73,3 +74,4 @@ function LoadCheckoutTable(){
     table.innerHTML = innerHTML;
 
 }
+</script>

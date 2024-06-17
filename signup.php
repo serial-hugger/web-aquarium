@@ -11,34 +11,39 @@ session_start();
 		$email = $_POST['email'];
 		$username = $_POST['username'];
 		$password = $_POST['password'];
+		$repeatpassword = $_POST['repeatpassword'];
 
-		if(!empty($username) && !empty($password))
+		if(!empty($username) && !empty($password) && !empty($repeatpassword))
 		{
-			$othername = "select * from accounts where username = '$username' limit 1";
-			$otheremail = "select * from accounts where email = '$email' limit 1";
-			$pass_hash = password_hash($password,PASSWORD_DEFAULT);
-			$nameresult = mysqli_query($con, $othername);
-			$emailresult = mysqli_query($con, $otheremail);
-			if($nameresult && mysqli_num_rows($nameresult) == 0)
-			{
-				if($emailresult && mysqli_num_rows($emailresult) == 0)
+			if($password==$repeatpassword){
+				$othername = "select * from accounts where username = '$username' limit 1";
+				$otheremail = "select * from accounts where email = '$email' limit 1";
+				$pass_hash = password_hash($password,PASSWORD_DEFAULT);
+				$nameresult = mysqli_query($con, $othername);
+				$emailresult = mysqli_query($con, $otheremail);
+				if($nameresult && mysqli_num_rows($nameresult) == 0)
 				{
-					//save to database
-					$query = "insert into accounts (email,username,pass_hash) values ('$email','$username','$pass_hash')";
+					if($emailresult && mysqli_num_rows($emailresult) == 0)
+					{
+						//save to database
+						$query = "insert into accounts (email,username,pass_hash) values ('$email','$username','$pass_hash')";
 
-					mysqli_query($con, $query);
+						mysqli_query($con, $query);
 
-					header("Location: login.php");
-					die;
+						header("Location: login.php");
+						die;
+					}else{
+						$error = "Email already in use.";
+					}
 				}else{
-					$error = "Email already in use.";
+					$error = "Username already in use.";
 				}
 			}else{
-				$error = "Username already in use.";
+				$error = "Passwords do not match.";
 			}
 		}else
 		{
-			$error = "Information is invalid.";
+			$error = "Please enter all information.";
 		}
 	}
 ?>
@@ -106,7 +111,8 @@ session_start();
 
 			<p>Email:</p><input id="text" type="email" name="email"><br>
 			<p>Username:</p><input id="text" type="text" name="username"><br>
-			<p>Password:</p><input id="text" type="password" name="password"><br><br>
+			<p>Password:</p><input id="text" type="password" name="password"><br>
+			<p>Confirm Password:</p><input id="text" type="password" name="repeatpassword"><br><br>
 
 			<input id="button" type="submit" value="Sign up"><br><br>
 

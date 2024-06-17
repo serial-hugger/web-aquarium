@@ -4,6 +4,17 @@ session_start();
 	include("functions.php");
 	$user_data = check_login($con);
 	$_SESSION;
+
+	$id = $_SESSION['account_id'];
+	$query = "select * from tanks where owner_account_id = '$id'";
+	$result = mysqli_query($con, $query);
+
+	for($i = 0; $i < mysqli_num_rows($result);$i++){
+		$tanks += mysqli_fetch_assoc($result);
+		if($i < mysqli_num_rows($result)){
+			$tanks += ";";
+		}
+	}
 ?>
 
 <!DOCTYPE html>
@@ -256,23 +267,26 @@ session_start();
 			</hr>
 		</div>
 	</div>
-
 	<div class="container noSelect" id="container">
 		<canvas class="noSelect" id="selectedaquarium"
 			style="margin:auto auto auto auto;display: flex;z-index:0"></canvas>
 	</div>
 	<div class="aquariumlist" id="aquariums"></div>
-	<script src="scripts/shop.js"></script>
-	<script src="scripts/items.js"></script>
-	<script src="scripts/tanks.js"></script>
-	<script src="scripts/interaction.js"></script>
-	<script src="scripts/update.js"></script>
+	<?php
+			include("scripts/shop.php");
+			include("scripts/items.php");
+			include("scripts/tanks.php");
+			include("scripts/interaction.php");
+			include("scripts/update.php");
+	?>
 	<script>
 		//1 is fastest game speed, higher numbers lower frame rate
 		var gameSpeed = 1;
 		// left: 37, up: 38, right: 39, down: 40,
 		// spacebar: 32, pageup: 33, pagedown: 34, end: 35, home: 36
 		var keys = { 37: 1, 38: 1, 39: 1, 40: 1 };
+
+
 
 		function preventDefault(e) {
 			e.preventDefault();

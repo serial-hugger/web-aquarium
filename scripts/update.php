@@ -1,3 +1,4 @@
+<script>
 function lerp( a, b, alpha ) {
 	return a + alpha * ( b - a );
 }
@@ -39,7 +40,7 @@ function repeat(){
 			shop.style.width = "100vw";
 		}
 		if(movingItemSlot == -1){
-			tankDecor[selectedTank].sort(function(a,b){
+			tankContent[selectedTank].sort(function(a,b){
 				return parseFloat(a.z) - parseFloat(b.z);
 			});
 		}
@@ -132,7 +133,7 @@ function repeat(){
 		prevZ = 0;
 
 		ctx.drawImage(tankImgs[GetImageSlot("sb0001.png")],(canvas.width/2-sandW/2)-xOffset*relativeSizing,(canvas.height/2-sandH/2.5)-(((yOffset+500)/5)/yMult)*(relativeSizing),sandW,sandH);
-		DrawTankItems(i,tankDecor[i],canvas,relativeSizing,xOffset,yOffset);
+		DrawTankItems(i,tankContent[i],canvas,relativeSizing,xOffset,yOffset);
 		ctx.drawImage(tankImgs[GetImageSlot("sf0001.png")],0,-5*relativeSizing,canvas.width ,sandFH);
 		ctx.globalAlpha = 0.1;
 		ctx.fillStyle = "#"+color;
@@ -197,9 +198,9 @@ function repeat(){
 	}
 	if(mousePrevY != mouseY || mousePrevX != mouseX){
 		if(movingItemSlot >= 0){
-			var x = parseInt(tankDecor[selectedTank][movingItemSlot].x) + (mouseX-mousePrevX)*1.1;
-			var z = parseInt(tankDecor[selectedTank][movingItemSlot].z) + (mouseY-mousePrevY)*1.1;
-			var width = tankItems[tankDecor[selectedTank][movingItemSlot].id].width/2;
+			var x = parseInt(tankContent[selectedTank][movingItemSlot].x) + (mouseX-mousePrevX)*1.1;
+			var z = parseInt(tankContent[selectedTank][movingItemSlot].z) + (mouseY-mousePrevY)*1.1;
+			var width = tankItems[tankContent[selectedTank][movingItemSlot].id].width/2;
 			
 
 			if(x>400-width){
@@ -214,8 +215,8 @@ function repeat(){
 			if(z<0){
 				z = 0;
 			}
-			tankDecor[selectedTank][movingItemSlot].x = x;
-			tankDecor[selectedTank][movingItemSlot].z = z;
+			tankContent[selectedTank][movingItemSlot].x = x;
+			tankContent[selectedTank][movingItemSlot].z = z;
 		}
 		mousePrevY = mouseY;
 		mousePrevX = mouseX;
@@ -411,3 +412,4 @@ function LightenDarkenColor(col, amt) {
 	col = parseInt(col, 16);
 	return (((col & 0x0000FF) + amt) | ((((col >> 8) & 0x00FF) + amt) << 8) | (((col >> 16) + amt) << 16)).toString(16);
   }
+  </script>
