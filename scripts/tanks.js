@@ -1,4 +1,3 @@
-<script>
 function Test(say){
 	window.alert(say);
 }
@@ -13,6 +12,11 @@ var myTankIds = [];
 var aquariums = [];
 var selectedTank = 0;
 
+function SaveTank(tank){
+	if(CheckForTankInfo(tank)==-1){
+		tankContent[tank].push({"id":"tankinformation","type":"tankinformation","cleanliness":100});
+	}
+}
 function CreateTankSave(tank){
 	var string = "";
 	//for(var c = 0;c < tankContent[tank].length;c++){
@@ -22,6 +26,15 @@ function CreateTankSave(tank){
 	//	}
 	//}
 	return JSON.stringify(tankContent[tank]);
+}
+function CheckForTankInfo(tank){
+	var info = -1;
+	for(var c = 0;c < tankContent[tank].length;c++){
+		if(tankContent[tank][c].type == "tankinformation"){
+			info = c;
+		}
+	}
+	return c;
 }
 function CreateTank(tank){
 	var canvas = document.createElement("canvas");
@@ -47,6 +60,7 @@ function CreateTank(tank){
 		overTank = false;
 	});
 	DecorateTank(tank);
+	SaveTank(tank);
 }
 function DecorateTank(tank){
 	tankContent[tank] = [];
@@ -78,4 +92,3 @@ window.onload = function() {
 	repeat();
 	CreateButtons();
 }
-</script>

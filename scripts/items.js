@@ -1,4 +1,3 @@
-<script>
 //ITEM BANK
 var tankItems = [
 {"image":"sb0001.png","type":"sandback","price":null},
@@ -83,4 +82,3 @@ function NewItem(id){
 		return {"z":getRandomInt(0,50),"id":id,"x":getRandomInt(-300,300),"y":getRandomInt(50,250),"size":0.5,"image":tankItems[id].image,"moveX":getRandomInt(-100,100),"moveY":getRandomInt(-50,50),"moveZ":getRandomInt(-10,10),"rotation":360};
 	}
 }
-</script>

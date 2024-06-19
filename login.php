@@ -29,7 +29,7 @@
 					{
 
 						$_SESSION['account_id'] = $user_data['account_id'];
-						header("Location: index.php");
+						header("Location: index.html");
 						die;
 					}
 				}
