@@ -35,6 +35,9 @@ mainCanvas.addEventListener("pointerdown", function(e)
 }); 
 mainCanvas.addEventListener("pointerup", function(e) 
 { 
+	if(movingItemSlot!=-1){
+		UpdateTank(selectedTank);
+	}
 	mouseDown = false;
 	itemSlotOver = -1;
 	movingItemSlot = -1;

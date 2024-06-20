@@ -52,7 +52,8 @@ session_start();
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Signup</title>
+	<title>Signup | Webquarium</title>
+	<link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
 <body>
 

@@ -12,20 +12,55 @@ var myTankIds = [];
 var aquariums = [];
 var selectedTank = 0;
 
-function SaveTank(tank){
+function InitializeTank(tank){
+	tankContent[tank] = [];
 	if(CheckForTankInfo(tank)==-1){
 		tankContent[tank].push({"id":"tankinformation","type":"tankinformation","cleanliness":100});
 	}
+	let info = {"tank" : tank};
+	//Check if tank exists
+	fetch('https://webquarium.000webhostapp.com/tank_functions/get_tank_contents.php',{
+		"method":"POST",
+		"body": JSON.stringify(info)
+	}).then(function(response){
+		return response.text();
+	}).then(function(data){
+		if(data=="" || data==null){
+			DecorateTank(tank);
+			let info = {"contents" : JSON.stringify(tankContent[tank])};
+			//Decorate and create on database if not
+			fetch('https://webquarium.000webhostapp.com/tank_functions/create_tank.php',{
+				"method":"POST",
+				"body": JSON.stringify(info)
+			}).then(function(response){
+				return response.text();
+			}).then(function(data){
+				window.alert(data);
+			})
+		}else{
+			//Retrieve tank info
+			let info = {"tank" : tank};
+			fetch('https://webquarium.000webhostapp.com/tank_functions/get_tank_contents.php',{
+				"method":"POST",
+				"body": JSON.stringify(info)
+			}).then(function(response){
+				return response.text();
+			}).then(function(data){
+				tankContent[tank] = JSON.parse(data);
+			})
+		}
+	})
 }
-function CreateTankSave(tank){
-	var string = "";
-	//for(var c = 0;c < tankContent[tank].length;c++){
-	//	string += JSON.stringify(tankContent[tank][c]);
-	//	if(c<tankContent[tank][c].length){
-	//		string += ";";
-	//	}
-	//}
-	return JSON.stringify(tankContent[tank]);
+function UpdateTank(tank){
+	let info = {"tank" : tank,"contents":JSON.stringify(tankContent[tank])};
+	//Check if tank exists
+	fetch('https://webquarium.000webhostapp.com/tank_functions/set_tank_contents.php',{
+		"method":"POST",
+		"body": JSON.stringify(info)
+	}).then(function(response){
+		return response.text();
+	}).then(function(data){
+	})
 }
 function CheckForTankInfo(tank){
 	var info = -1;
@@ -59,11 +94,9 @@ function CreateTank(tank){
 	{ 
 		overTank = false;
 	});
-	DecorateTank(tank);
-	SaveTank(tank);
+	InitializeTank(tank);
 }
 function DecorateTank(tank){
-	tankContent[tank] = [];
 	for(z=0;z<50;z+=getRandomInt(2,3)){
 		var id = GetRandomItem("decor");
 		tankContent[tank].push({"z":z,"id":id,"x":getRandomInt(-300,300),"y":0,"size":(getRandomInt(8,12)/10),"flip":(getRandomInt(0,1)),"image":tankItems[id].image});

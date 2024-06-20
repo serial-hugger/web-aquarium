@@ -1,4 +1,3 @@
-<?php include 'logincheck.php'?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -258,6 +257,7 @@
 			<script src = "scripts/tanks.js"></script>;
 			<script src = "scripts/interaction.js"></script>;
 			<script src = "scripts/update.js"></script>;
+			<script src = "scripts/shop.js"></script>;
 	<script>
 		//1 is fastest game speed, higher numbers lower frame rate
 		var gameSpeed = 1;
@@ -422,7 +422,7 @@
 		function ButtonShopMode() {
 			mode = "shop";
 			CreateButtons();
-			CreateShopItems();
+			CreateShopItems(0);
 		}
 		function UpdateElements() {
 			if (mode != "edit") {

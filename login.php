@@ -29,7 +29,7 @@
 					{
 
 						$_SESSION['account_id'] = $user_data['account_id'];
-						header("Location: index.html");
+						header("Location: index.php");
 						die;
 					}
 				}
@@ -44,7 +44,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Login</title>
+	<title>Login | Webquarium</title>
+	<link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
 <body>
 
