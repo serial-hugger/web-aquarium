@@ -157,7 +157,7 @@ function repeat(){
 		ctx.fillStyle = "#"+color;
 		ctx.globalAlpha = darkness*9;
 		var path=new Path2D();
-		path.moveTo((canvas.width/2)-xOffset*10,-200);
+		path.moveTo((canvas.width/2)-xOffset*10,-100);
 		path.lineTo(0-(75*relativeSizing),(50-actualSway*0.06)*relativeSizing);
 		path.lineTo(canvas.width+(75*relativeSizing),(50+actualSway*0.06)*relativeSizing);
 		ctx.fill(path);
@@ -181,13 +181,13 @@ function repeat(){
 			ctx.globalAlpha = 1;
 		}
 
-		if(mode == "edit"){
+		if(mode == "stuff"){
 			ctx.strokeRect(hoverLeft,hoverTop,hoverWidth,hoverHeight);
 		}
 		ctx.globalAlpha = 1;
 		hoverTop = -1000;
 		hoverLeft = -1000;
-		if((itemSlotOver != -1 && mode == "edit") || overTank){
+		if((itemSlotOver != -1 && mode == "stuff") || overTank){
 			cursor = 1;
 		}
 		if(movingItemSlot != -1){
@@ -328,7 +328,7 @@ function DrawTankItems(tank,decorArr,canvas,relSize,xOffset,yOffset){
 			decorArr[i].rotation = rot;
 		}
 		var imgSlot;
-		imgSlot = GetImageSlot(decorArr[i].image);
+		imgSlot = GetImageSlot(tankItems[decorArr[i].id].image);
 		var iWidth = (tankImgs[imgSlot].width * relSize)*(z/90+size/2);
 		var iHeight = (tankImgs[imgSlot].height * relSize)*(z/90+size/2);
 		var sandW = relSize*tankImgs[0].width;

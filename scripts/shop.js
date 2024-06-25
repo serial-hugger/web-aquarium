@@ -43,13 +43,14 @@ function GetCartPrice(){
     return amt;
 }
 function CreateShopItems(startIndex){
+    document.getElementById("viewcart").innerText= "Cart ("+GetCartAmount()+")";
 	var shop = document.getElementById("shop-container");
 	shop.innerHTML = '';
 	var index = 0;
 	for(var i = 0; i< tankItems.length;i++){
 		if(tankItems[i].price!=null){
 			var item = document.createElement("div");
-			item.innerHTML = "<div class=\"item-img-with-text\"><img src="+tankItems[i].type + "/" + tankItems[i].image + " alt=\"SHOP\"></img><p><b>"+tankItems[i].name+"</b><br> $"+tankItems[i].price+"</b></p> <button onclick=\"AddItemToCart("+i+")\">Add to cart</button> </div>";
+			item.innerHTML = "<div class=\"shop-item-img-with-text\"><img src="+tankItems[i].type + "/" + tankItems[i].image + " alt=\"SHOP\"></img><p><b>"+tankItems[i].name+"</b><br> $"+tankItems[i].price+"</b></p> <button onclick=\"AddItemToCart("+i+")\">Add to cart</button> </div>";
 			shop.appendChild(item);
 		}
 	}
@@ -58,6 +59,40 @@ function GoToCheckout(){
     mode = "checkout";
     LoadCheckoutTable();
     CreateButtons();
+}
+function PurchaseItems(){
+    if(money >= GetCartPrice()){
+        for(var i = 0;i < shoppingCart.length;i++){
+            AddItemToStorage({"id":shoppingCart[i].id,"qty":1}, shoppingCart[i].qty);
+        }
+        ChangeAccountMoney(GetCartPrice());
+        shoppingCart = [];
+        LoadCheckoutTable();
+        UpdateStorage();
+        mode = "stuff";
+    }
+}
+function ChangeAccountMoney(amt){
+    let info = {"change" : amt};
+	//Check if tank exists
+	fetch('account_functions/change_account_money.php',{
+		"method":"POST",
+		"body": JSON.stringify(info)
+	}).then(function(response){
+		return response.text();
+	}).then(function(data){
+        GetAccountMoney();
+    })
+}
+function GetAccountMoney(){
+			//Retrieve storage info
+			fetch('account_functions/get_account_money.php',{
+				"method":"GET"
+			}).then(function(response){
+				return response.text();
+			}).then(function(data){
+				money = JSON.parse(data);
+			})
 }
 function LoadCheckoutTable(){
     var table = document.getElementById("shop-checkout-table");

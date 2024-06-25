@@ -19,28 +19,27 @@ function InitializeTank(tank){
 	}
 	let info = {"tank" : tank};
 	//Check if tank exists
-	fetch('https://webquarium.000webhostapp.com/tank_functions/get_tank_contents.php',{
+	fetch('tank_functions/get_tank_contents.php',{
 		"method":"POST",
 		"body": JSON.stringify(info)
 	}).then(function(response){
 		return response.text();
 	}).then(function(data){
-		if(data=="" || data==null){
-			DecorateTank(tank);
+		if(!data||data==""){
+			//DecorateTank(tank);
 			let info = {"contents" : JSON.stringify(tankContent[tank])};
 			//Decorate and create on database if not
-			fetch('https://webquarium.000webhostapp.com/tank_functions/create_tank.php',{
+			fetch('tank_functions/create_tank.php',{
 				"method":"POST",
 				"body": JSON.stringify(info)
 			}).then(function(response){
 				return response.text();
 			}).then(function(data){
-				window.alert(data);
 			})
 		}else{
 			//Retrieve tank info
 			let info = {"tank" : tank};
-			fetch('https://webquarium.000webhostapp.com/tank_functions/get_tank_contents.php',{
+			fetch('tank_functions/get_tank_contents.php',{
 				"method":"POST",
 				"body": JSON.stringify(info)
 			}).then(function(response){
@@ -54,7 +53,7 @@ function InitializeTank(tank){
 function UpdateTank(tank){
 	let info = {"tank" : tank,"contents":JSON.stringify(tankContent[tank])};
 	//Check if tank exists
-	fetch('https://webquarium.000webhostapp.com/tank_functions/set_tank_contents.php',{
+	fetch('tank_functions/set_tank_contents.php',{
 		"method":"POST",
 		"body": JSON.stringify(info)
 	}).then(function(response){
@@ -96,15 +95,16 @@ function CreateTank(tank){
 	});
 	InitializeTank(tank);
 }
-function DecorateTank(tank){
-	for(z=0;z<50;z+=getRandomInt(2,3)){
-		var id = GetRandomItem("decor");
-		tankContent[tank].push({"z":z,"id":id,"x":getRandomInt(-300,300),"y":0,"size":(getRandomInt(8,12)/10),"flip":(getRandomInt(0,1)),"image":tankItems[id].image});
+function AddItemToTank(tank,item){
+	if(item.x == null){
+		item = NewItem(item.id);
 	}
-	for(f=0;f<25;f+=getRandomInt(1,3)){
-		var id = GetRandomItem("fish");
-		tankContent[tank].push({"z":getRandomInt(0,50),"id":id,"x":getRandomInt(-300,300),"y":getRandomInt(50,250),"size":0.5,"image":tankItems[id].image,"moveX":getRandomInt(-100,100),"moveY":getRandomInt(-50,50),"moveZ":getRandomInt(-10,10),"rotation":360});
-	}
+	tankContent[tank].push(item);
+	UpdateTank(tank);
+}
+function RemoveItemFromTank(tank,index){
+	tankContent[tank].splice(index,1);
+	UpdateTank(tank);
 }
 function UpdateCursor(){
 	if(cursor == 0){
@@ -124,4 +124,6 @@ window.onload = function() {
 	preloadTankImages();
 	repeat();
 	CreateButtons();
+	InitializeStorage();
+	GetAccountMoney();
 }

@@ -1,6 +1,6 @@
 <?php
 session_start();
-include("../connection.php");
+require("../connection.php");
     if(isset($_POST)){
         $data = file_get_contents("php://input");
         $info = json_decode($data,true);
@@ -21,4 +21,5 @@ include("../connection.php");
     }else{
         echo "";
     }
+    mysqli_close($con);
 ?>

@@ -26,7 +26,7 @@ var yMult = 1;
 mainCanvas.addEventListener("pointerdown", function(e) 
 { 
 	mouseDown = true;
-	if(mode == "edit"){
+	if(mode == "stuff"){
 		movingItemSlot = itemSlotOver;
 		xDebt = 0;
 		yDebt = 0;
@@ -49,7 +49,7 @@ mainCanvas.addEventListener("pointerup", function(e)
 
 mainCanvas.addEventListener("pointermove", function(e) 
 { 
-	if(mode == "edit" && mouseDown && movingItemSlot == -1){
+	if(mode == "stuff" && mouseDown && movingItemSlot == -1){
 		movingItemSlot = itemSlotOver;
 	}
     mouseX = getMousePos(mainCanvas,e).x;
@@ -57,6 +57,9 @@ mainCanvas.addEventListener("pointermove", function(e)
 }); 
 mainCanvas.addEventListener("pointerout", function(e) 
 { 
+	if(movingItemSlot!=-1){
+		UpdateTank(selectedTank);
+	}
 	mouseDown = false;
 	hoverTop = -1000;
 	hoverLeft = -1000;

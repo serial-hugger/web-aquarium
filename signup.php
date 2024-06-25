@@ -1,8 +1,8 @@
 <?php 
 session_start();
 
-	include("connection.php");
-	include("functions.php");
+require("connection.php");
+require("functions.php");
 
 
 	if($_SERVER['REQUEST_METHOD'] == "POST")
@@ -21,12 +21,13 @@ session_start();
 				$pass_hash = password_hash($password,PASSWORD_DEFAULT);
 				$nameresult = mysqli_query($con, $othername);
 				$emailresult = mysqli_query($con, $otheremail);
+				$startingmoney = (int)1000;
 				if($nameresult && mysqli_num_rows($nameresult) == 0)
 				{
 					if($emailresult && mysqli_num_rows($emailresult) == 0)
 					{
 						//save to database
-						$query = "insert into accounts (email,username,pass_hash) values ('$email','$username','$pass_hash')";
+						$query = "insert into accounts (email,username,pass_hash,money) values ('$email','$username','$pass_hash',$startingmoney)";
 
 						mysqli_query($con, $query);
 

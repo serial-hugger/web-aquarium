@@ -1,6 +1,6 @@
 <?php
 session_start();
-include("../connection.php");
+require("../connection.php");
     if(isset($_POST)){
         $data = file_get_contents("php://input");
         $info = json_decode($data,true);
@@ -8,14 +8,19 @@ include("../connection.php");
         $query = "select * from tanks where owner_account_id = $id;";
         $result = mysqli_query($con, $query);
 
-        $index = 0;
-        while($index!=$info['tank'])
-        {
-            mysqli_fetch_assoc($result);
-            $index++;
+        if(mysqli_num_rows($result)>$info['tank']){
+            $index = 0;
+            while($index!=$info['tank'])
+            {
+                mysqli_fetch_assoc($result);
+                $index++;
+            }
+            echo mysqli_fetch_assoc($result)['contents'];
+        }else{
+            echo null;
         }
-        echo mysqli_fetch_assoc($result)['contents'];
     }else{
-        echo "";
+        echo null;
     }
+    mysqli_close($con);
 ?>
