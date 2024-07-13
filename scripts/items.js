@@ -203,14 +203,33 @@ function StorageItemAction(value,itemIndex){
 	}
 	if(value == "sell1"){
 		if(!showingTankStorage){
-			ChangeAccountMoney(Math.ceil(tankItems[storage[itemIndex].id].price*0.5));
+			let info = {"item":JSON.stringify(storage[itemIndex])};
+			//Check if tank exists
+			fetch('item_functions/sell_item_from_storage.php',{
+				"method":"POST",
+				"headers":{
+					"Content-Type":"application/json; charset=utf-8"
+				},
+				"body": JSON.stringify(info)
+			}).then(function(response){
+				return response.text();
+			}).then(function(data){
+				window.alert(data);
+			})
 		}else{
-			ChangeAccountMoney(Math.ceil(tankItems[tankContent[selectedTank][itemIndex].id].price*0.5));
-		}
-		if(!showingTankStorage){
-			RemoveItemFromStorage(itemIndex);
-		}else{
-			RemoveItemFromTank(selectedTank,itemIndex);
+			let info = {"tank" : selectedTank,"item":JSON.stringify(tankContent[selectedTank][itemIndex])};
+			//Check if tank exists
+			fetch('item_functions/sell_item_from_tank.php',{
+				"method":"POST",
+				"headers":{
+					"Content-Type":"application/json; charset=utf-8"
+				},
+				"body": JSON.stringify(info)
+			}).then(function(response){
+				return response.text();
+			}).then(function(data){
+				window.alert(data);
+			})
 		}
 	}
 	CreateStorageItems(0);
