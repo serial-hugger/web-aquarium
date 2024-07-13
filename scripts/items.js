@@ -193,8 +193,9 @@ function CreateStorageItems(startIndex){
 }
 function StorageItemAction(value,itemIndex){
 	if(value == "place"){
-		AddItemToTank(selectedTank,storage[itemIndex]);
-		RemoveItemFromStorage(itemIndex);
+		PlaceItemInTank(selectedTank,storage[itemIndex]);
+		//AddItemToTank(selectedTank,storage[itemIndex]);
+		//RemoveItemFromStorage(itemIndex);
 	}
 	if(value == "storage"){
 		AddItemToStorage(tankContent[selectedTank][itemIndex],1);
@@ -212,7 +213,6 @@ function StorageItemAction(value,itemIndex){
 			RemoveItemFromTank(selectedTank,itemIndex);
 		}
 	}
-	UpdateStorage();
 	CreateStorageItems(0);
 }
 function AddItemToStorage(item,amt){

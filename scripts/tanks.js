@@ -61,6 +61,21 @@ function UpdateTank(tank){
 	}).then(function(data){
 	})
 }
+function PlaceItemInTank(tanknum,item){
+	let info = {"tank" : tanknum,"item":JSON.stringify(item)};
+	//Check if tank exists
+	fetch('tank_functions/place_item_in_tank.php',{
+		"method":"POST",
+		"headers":{
+			"Content-Type":"application/json; charset=utf-8"
+		},
+		"body": JSON.stringify(info)
+	}).then(function(response){
+		return response.text();
+	}).then(function(data){
+		window.alert(data);
+	})
+}
 function CheckForTankInfo(tank){
 	var info = -1;
 	for(var c = 0;c < tankContent[tank].length;c++){
